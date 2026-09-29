@@ -1,0 +1,214 @@
+// ~/.config/zed/settings.json — Zed 1.21, vim mode tuned to feel like LazyVim.
+//
+// Run `zed: open default settings` from the command palette to see every option.
+// Keymap lives in keymap.json (leader = space, which-key popup enabled below).
+{
+  // ── Keymap / vim ───────────────────────────────────────────────────────
+  "proxy": "",
+  "agent": {
+    "favorite_models": [],
+    "single_file_review": true,
+    "model_parameters": []
+  },
+  "close_panel_on_toggle": false,
+  "active_pane_modifiers": {
+    "inactive_opacity": 1.0
+  },
+  "bottom_dock_layout": "contained",
+  "tab_bar": {
+    "show_pinned_tabs_in_separate_row": false,
+    "show_tab_bar_buttons": true
+  },
+  "status_bar": {
+    "show_active_file": true,
+    "line_endings_button": true
+  },
+  "colorize_brackets": false,
+  "lsp_document_colors": "inlay",
+  "code_lens": "menu",
+  "diff_view_style": "unified",
+  "cursor_animation": {
+    "enabled": true
+  },
+  "markdown_preview": {
+    "open_markdown_files_in_preview": true,
+    "font_family": "Damascus"
+  },
+  "ui_font_family": "DejaVuSansM Nerd Font",
+  "buffer_font_family": "DejaVuSansM Nerd Font",
+  "base_keymap": "Zed",
+  "vim_mode": true,
+  "vim": {
+    "default_mode": "normal",
+    "use_system_clipboard": "always",   // LazyVim: clipboard=unnamedplus
+    "use_smartcase_find": true,         // f/t/F/T ignore case unless you type a capital
+    "toggle_relative_line_numbers": true, // relative numbers in normal, absolute in insert
+    "use_regex_search": true,           // `/` and `?` take regex, like vim
+    "highlight_on_yank_duration": 200,  // LazyVim's yank flash
+    "cursor_shape": {
+      "normal": "block",
+      "insert": "bar",
+      "replace": "underline",
+      "visual": "block"
+    }
+  },
+  // LazyVim: timeoutlen=300 → which-key shows quickly after <space>
+  "which_key": {
+    "enabled": true,
+    "delay_ms": 100
+  },
+
+  // ── Editor feel (LazyVim options.lua) ──────────────────────────────────
+  "relative_line_numbers": "enabled",        // relativenumber
+  "vertical_scroll_margin": 4,          // scrolloff=4
+  "horizontal_scroll_margin": 8,        // sidescrolloff=8
+  "current_line_highlight": "all",      // cursorline
+  "cursor_blink": true,
+  "soft_wrap": "none",                  // wrap=false (toggle with <space>uw)
+  "show_whitespaces": "none",       // list=true (trailing spaces only)
+  "scroll_beyond_last_line": "one_page",
+  "confirm_quit": true,                 // confirm=true
+  "seed_search_query_from_cursor": "selection", // `*`, <space>sw pick up the word/selection
+  "use_smartcase_search": true,         // ignorecase + smartcase for / and project search
+  "search": {
+    "button": false,
+    "case_sensitive": false             // ignorecase
+  },
+  "gutter": {
+    "line_numbers": true,
+    "folds": true,
+    "breakpoints": true
+  },
+  "git": {
+    "diff_base": "default_branch",
+    "inline_blame": {
+      "show_commit_summary": true,
+      "location": "status_bar",
+      "enabled": true                  // gitsigns shows blame on demand: <space>gb / <space>uG
+    }
+  },
+  "diagnostics": {
+    "inline": {
+      "enabled": true                   // like LazyVim virtual_text diagnostics
+    }
+  },
+  "inlay_hints": {
+    "enabled": true,
+    "show_background": false
+  },
+  "indent_guides": {
+    "background_coloring": "disabled",
+    "line_width": 1,
+    "active_line_width": 2,
+    "coloring": "indent_aware"
+  },
+  "sticky_scroll": {
+    "enabled": true                     // treesitter-context
+  },
+  "show_signature_help_after_edits": false,
+  "auto_signature_help": false,
+  "autoscroll_on_clicks": true,
+  "mouse_wheel_zoom": true,
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000
+    }
+  },
+  "format_on_save": "on",               // LazyVim g.autoformat (<space>uf saves without formatting)
+
+  // ── UI ─────────────────────────────────────────────────────────────────
+  "ui_font_size": 14.0,
+  "buffer_font_size": 12.0,
+  "theme": {
+    "mode": "system",
+    "light": "Doomed Light",
+    "dark": "Doomed"
+  },
+  "icon_theme": {
+    "mode": "system",
+    "light": "Doomed Icons Light",
+    "dark": "Doomed Icons"
+  },
+  "scrollbar": {
+    "show": "never"
+  },
+  "toolbar": {
+    "code_actions": false,
+    "agent_review": false,
+    "selections_menu": false,
+    "quick_actions": false,
+    "breadcrumbs": false
+  },
+  "title_bar": {
+    "show_sign_in": false,
+    "show_onboarding_banner": false,
+    "show_project_items": true,
+    "show_branch_name": false,
+    "show_menus": false,
+    "show_branch_status_icon": true
+  },
+  "tabs": {
+    "show_diagnostics": "errors",
+    "close_position": "left",
+    "file_icons": true,
+    "git_status": true
+  },
+  "use_system_window_tabs": true,
+  "project_panel": {
+    "hide_root": true,
+    "entry_spacing": "standard",
+    "default_width": 260.0,
+    "dock": "right",                    // <space>E toggles the right dock
+    "git_status_indicator": true,
+    "diagnostic_badges": false,
+    "show_diagnostics": "errors",
+    "bold_folder_labels": false,
+    "indent_size": 12.0
+  },
+  "outline_panel": {
+    "default_width": 260.0,
+    "indent_size": 12.0
+  },
+  "terminal": {
+    "copy_on_select": true,
+    "shell": {
+      "program": "nu"
+    },
+    "font_weight": 400.0,
+    "show_count_badge": false,
+    "font_family": "DejaVuSansM Nerd Font",
+    "toolbar": {
+      "breadcrumbs": false
+    }
+  },
+
+  // ── AI / agents ────────────────────────────────────────────────────────
+  "edit_predictions": {
+    "mode": "eager",
+    "provider": "copilot"
+  },
+  "agent_servers": {
+    "andromeda": {
+      "default_config_options": {
+        "show_raw_io": true
+      },
+      "type": "custom",
+      "command": "/Users/Matthew/Development/Andromeda/target/release/andromeda",
+      "args": ["serve"],
+      "env": {
+        "ANDROMEDA_LOG": "andromeda=info"
+      }
+    },
+    "claude-acp": {
+      "type": "registry"
+    }
+  },
+
+  // ── Misc ───────────────────────────────────────────────────────────────
+  "cli_default_open_behavior": "new_window",
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+    "anthropic_retention": false
+  }
+}

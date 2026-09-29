@@ -1,0 +1,12 @@
+# Zed writes these; they are local state, not config
+*.bak
+*.bak-*
+prompts/
+conversations/
+db/
+extensions/
+languages/
+node/
+copilot/
+logs/
+.DS_Store
