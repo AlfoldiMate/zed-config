@@ -10,12 +10,12 @@
 // ═══ shared panel keys: spliced into every list panel with `@panel-keys` ══════
 @panel-keys = {
   ":":     command_palette::Toggle
-  j:       menu::SelectNext  // ours
+  j:       menu::SelectNext             // ours
   k:       menu::SelectPrevious
-  h:       menu::SelectParent  // ours
+  h:       menu::SelectParent           // ours
   l:       menu::SelectChild
-  "g g":   menu::SelectFirst  // ours
-  shift-g: menu::SelectLast  // ours
+  "g g":   menu::SelectFirst            // ours
+  shift-g: menu::SelectLast             // ours
   ctrl-h:  workspace::ActivatePaneLeft  // ours
   ctrl-j:  workspace::ActivatePaneDown
   ctrl-k:  workspace::ActivatePaneUp
@@ -32,11 +32,11 @@
     f:       file_finder::Toggle
     /:       pane::DeploySearch
     shift-s: project_symbols::Toggle
-    ":":     command_palette::Toggle  // ours
+    ":":     command_palette::Toggle     // ours
     e:       project_panel::ToggleFocus  // ours
     g:       git_panel::ToggleFocus
     t:       terminal_panel::ToggleFocus
-    x:       diagnostics::Deploy  // ours
+    x:       diagnostics::Deploy         // ours
     q:       workspace::CloseWindow
     w: {
       h: workspace::ActivatePaneLeft
@@ -80,8 +80,12 @@ Workspace {
   cmd-,:       zed::OpenSettings
   ctrl-/:      terminal_panel::ToggleFocus  // ours
   escape:      workspace::Unfollow
-  !Terminal { cmd-n:     workspace::NewFile }
-  debugger_running { f5: null }
+  !Terminal {
+    cmd-n: workspace::NewFile
+  }
+  debugger_running {
+    f5: null
+  }
   debugger_stopped {
     f5:        debugger::Continue
     f10:       debugger::StepOver
@@ -149,7 +153,9 @@ Workspace {
       "g g":       markdown::ScrollToTop
       shift-g:     markdown::ScrollToBottom
     }
-    > Diagnostics { ctrl-r: diagnostics::ToggleDiagnosticsRefresh }
+    > Diagnostics {
+      ctrl-r: diagnostics::ToggleDiagnosticsRefresh
+    }
     > SettingsWindow {
       cmd-w escape: workspace::CloseWindow
       cmd-f:        search::FocusSearch
@@ -241,25 +247,27 @@ Workspace {
         enter t: project_panel::OpenPermanent
         escape:  vim::ToggleProjectPanelFocus
         0..9:    vim::Number($)
-        a:       project_panel::NewFile  // ours
+        a:       project_panel::NewFile              // ours
         shift-a: project_panel::NewDirectory
-        r:       project_panel::Rename  // ours
-        d:       project_panel::Trash  // ours
+        r:       project_panel::Rename               // ours
+        d:       project_panel::Trash                // ours
         shift-d: project_panel::Delete
-        y:       project_panel::Copy  // ours
+        y:       project_panel::Copy                 // ours
         shift-y: workspace::CopyRelativePath
-        x:       project_panel::Cut  // ours
+        x:       project_panel::Cut                  // ours
         p:       project_panel::Paste
-        o:       project_panel::OpenSplitVertical  // ours
+        o:       project_panel::OpenSplitVertical    // ours
         shift-o: project_panel::OpenSplitHorizontal
         v:       project_panel::OpenSplitVertical
         s:       workspace::OpenWithSystem
         /:       project_panel::NewSearchInDirectory
-        .:       project_panel::OpenContextMenu  // ours
+        .:       project_panel::OpenContextMenu      // ours
         shift-h: project_panel::ToggleHideGitIgnore  // ours
         "}":     project_panel::SelectNextDirectory
         "{":     project_panel::SelectPrevDirectory
-        g:       { .: pane::RevealInProjectPanel }  // ours
+        g: {  // ours
+          .: pane::RevealInProjectPanel
+        }
         z: {
           t: project_panel::ScrollCursorTop
           z: project_panel::ScrollCursorCenter
@@ -330,22 +338,24 @@ Workspace {
           cmd-shift-y:              git::UnstageFile
           alt-down tab shift-tab i: git_panel::FocusEditor
           backspace delete:         git::RestoreFile(skip_prompt=false)
-          s:                        git::ToggleStaged  // ours
+          s:                        git::ToggleStaged            // ours
           shift-s:                  git::StageAll
-          u:                        git::UnstageFile  // ours
-          d:                        git::RestoreFile  // ours
-          c:                        git::Commit  // ours
+          u:                        git::UnstageFile             // ours
+          d:                        git::RestoreFile             // ours
+          c:                        git::Commit                  // ours
           shift-c:                  git::Amend
           shift-i:                  git::GenerateCommitMessage
-          f:                        git::Fetch  // ours
+          f:                        git::Fetch                   // ours
           p:                        git::Pull
           shift-p:                  git::Push
           b:                        git::Branch
           shift-t:                  git::StashAll
-          o:                        git::OpenFileDiff  // ours
+          o:                        git::OpenFileDiff            // ours
           shift-o:                  git::OpenModifiedFiles
           y:                        workspace::CopyRelativePath  // ours
-          z: { z: git::Diff }  // ours
+          z: {  // ours
+            z: git::Diff
+          }
         }
       }
       CommitEditor {
@@ -356,7 +366,7 @@ Workspace {
           cmd-shift-enter:      git::Amend
           tab shift-tab alt-up: git_panel::FocusChanges
           alt-tab:              git::GenerateCommitMessage
-          ctrl-s:               git::Commit  // ours
+          ctrl-s:               git::Commit              // ours
           ctrl-j:               git_panel::FocusChanges  // ours
         }
       }
@@ -381,7 +391,9 @@ Workspace {
         shift-pageup:   agent::ScrollOutputToPreviousMessage
         shift-pagedown: agent::ScrollOutputToNextMessage
         cmd-f:          agent::ToggleSearch
-        > ModeSelector { cmd-enter: menu::Confirm }
+        > ModeSelector {
+          cmd-enter: menu::Confirm
+        }
         > Editor {
           shift-alt-y:     agent::KeepAll
           shift-alt-z:     agent::RejectAll
@@ -398,7 +410,9 @@ Workspace {
             pagedown: agent::ScrollOutputPageDown
             ctrl-end: agent::ScrollOutputToBottom
           }
-          !use_modifier_to_send { enter: agent::Chat }
+          !use_modifier_to_send {
+            enter: agent::Chat
+          }
           use_modifier_to_send {
             cmd-enter: agent::Chat
             enter:     editor::Newline
@@ -445,7 +459,9 @@ Workspace {
     right:           menu::SelectChild
     cmd-f:           agents_sidebar::FocusSidebarFilter
     shift-backspace: agent::ArchiveSelectedThread
-    not_searching { shift-r: agent::RenameSelectedThread }
+    not_searching {
+      shift-r: agent::RenameSelectedThread
+    }
     !Editor {
       @panel-keys
       /:         agents_sidebar::FocusSidebarFilter
@@ -467,13 +483,17 @@ Workspace {
     ctrl-w:        editor::DeleteToPreviousWordStart
     ctrl-p:        menu::SelectPrevious
     ctrl-n:        menu::SelectNext
-    ctrl-j:        menu::SelectNext  // ours
+    ctrl-j:        menu::SelectNext       // ours
     ctrl-k:        menu::SelectPrevious
     ctrl-l:        picker::TogglePreview  // ours
     ctrl-v:        menu::SecondaryConfirm
   }
-  > FileFinder | (FileFinder > Picker > Editor)         { cmd-shift-i:     search::ToggleIncludeIgnored }
-  > CommandPalette | (CommandPalette > Picker > Editor) { shift-backspace: command_palette::RemoveSelected }
+  > FileFinder | (FileFinder > Picker > Editor) {
+    cmd-shift-i: search::ToggleIncludeIgnored
+  }
+  > CommandPalette | (CommandPalette > Picker > Editor) {
+    shift-backspace: command_palette::RemoveSelected
+  }
   > RecentProjects | (RecentProjects > Picker > Editor) {
     shift-backspace: recent_projects::RemoveSelected
     cmd-shift-enter: recent_projects::AddToWorkspace
@@ -512,7 +532,9 @@ Workspace {
     left h:  menu::SelectPrevious
     right l: menu::SelectNext
   }
-  > ZedPredictModal | OnboardingAiConfigurationModal { escape: menu::Cancel }
+  > ZedPredictModal | OnboardingAiConfigurationModal {
+    escape: menu::Cancel
+  }
 }
 
 // ═══ every text input, wherever it sits ═════════════════════════════════════
@@ -633,7 +655,7 @@ Editor {
       shift-l:   vim::WindowBottom
       "{":       vim::StartOfParagraph
       "}":       vim::EndOfParagraph
-      (:        vim::SentenceBackward
+      (:         vim::SentenceBackward
       ):         vim::SentenceForward
       %:         vim::Matching(match_quotes)
       f:         vim::PushFindForward(before=false, multiline=false)
@@ -704,7 +726,7 @@ Editor {
         .:       vim::HelixGotoLastModification
         m:       editor::GoToHunk  // ours
         shift-m: editor::GoToPreviousHunk
-        o:       outline::Toggle  // ours
+        o:       outline::Toggle   // ours
         shift-o: project_symbols::Toggle
         j:       vim::Down(display_lines)
         k:       vim::Up(display_lines)
@@ -751,7 +773,7 @@ Editor {
           "\"":        vim::DoubleQuotes
           q:           vim::MiniQuotes
           "|":         vim::VerticalBars
-          (:               vim::Parentheses(opening)
+          (:           vim::Parentheses(opening)
           ) b:         vim::Parentheses
           [:           vim::SquareBrackets(opening)
           ] r:         vim::SquareBrackets
@@ -876,7 +898,9 @@ Editor {
         shift-o:     vim::InsertLineAbove
         shift-i:     vim::InsertFirstNonWhitespace
         shift-a:     vim::InsertEndOfLine
-        g:       { "r n" "r r" "r i" "r a": null }  // ours: keep g r instant
+        g: {  // ours: keep g r instant
+          "r n" "r r" "r i" "r a": null
+        }
         space: {
           f:       file_finder::Toggle
           b:       tab_switcher::ToggleAll
@@ -911,12 +935,12 @@ Editor {
             n: debugger::StepOver
             b: editor::ToggleBreakpoint
           }
-          .:       editor::OpenContextMenu  // ours
-          ":":     command_palette::Toggle  // ours
+          .:       editor::OpenContextMenu     // ours
+          ":":     command_palette::Toggle     // ours
           e:       project_panel::ToggleFocus  // ours
           g:       git_panel::ToggleFocus
           t:       terminal_panel::ToggleFocus
-          x:       diagnostics::Deploy  // ours
+          x:       diagnostics::Deploy         // ours
           m:       markdown::OpenPreviewToTheSide
           u: {  // ours
             w: editor::ToggleSoftWrap
@@ -925,7 +949,7 @@ Editor {
             d: editor::ToggleDiagnostics
             b: git::Blame
           }
-          q:       workspace::CloseWindow  // ours
+          q:       workspace::CloseWindow      // ours
           shift-q: zed::Quit
         }
         vim_mode == helix_normal {
@@ -953,7 +977,9 @@ Editor {
     ctrl-d:      vim::ScrollDown
     ctrl-u:      vim::ScrollUp
   }
-  showing_code_actions { enter: editor::ConfirmCodeAction }
+  showing_code_actions {
+    enter: editor::ConfirmCodeAction
+  }
   (showing_code_actions | showing_completions) {
     up ctrl-p:   editor::ContextMenuPrevious
     down ctrl-n: editor::ContextMenuNext
@@ -964,18 +990,28 @@ Editor {
     up:   editor::SignatureHelpPrevious
     down: editor::SignatureHelpNext
   }
-  renaming     { enter: editor::ConfirmRename }
+  renaming {
+    enter: editor::ConfirmRename
+  }
   in_snippet {
-    has_next_tabstop & !showing_completions     { tab:       editor::NextSnippetTabstop }
-    has_previous_tabstop & !showing_completions { shift-tab: editor::PreviousSnippetTabstop }
+    has_next_tabstop & !showing_completions {
+      tab: editor::NextSnippetTabstop
+    }
+    has_previous_tabstop & !showing_completions {
+      shift-tab: editor::PreviousSnippetTabstop
+    }
   }
   edit_prediction {
     alt-tab:        editor::AcceptEditPrediction
     ctrl-cmd-right: editor::AcceptNextWordEditPrediction
     ctrl-cmd-down:  editor::AcceptNextLineEditPrediction
-    edit_prediction_mode == eager & !showing_completions { tab: editor::AcceptEditPrediction }
+    edit_prediction_mode == eager & !showing_completions {
+      tab: editor::AcceptEditPrediction
+    }
   }
-  !edit_prediction { alt-tab: editor::ShowEditPrediction }
+  !edit_prediction {
+    alt-tab: editor::ShowEditPrediction
+  }
   editor_agent_diff {
     cmd-y:        agent::Keep
     cmd-alt-z:    agent::Reject
@@ -983,8 +1019,12 @@ Editor {
     shift-alt-z:  agent::RejectAll
     shift-ctrl-r: agent::OpenAgentDiff
   }
-  extension == md  { cmd-shift-v: markdown::OpenPreview }
-  extension == svg { cmd-shift-v: svg::OpenPreview }
+  extension == md {
+    cmd-shift-v: markdown::OpenPreview
+  }
+  extension == svg {
+    cmd-shift-v: svg::OpenPreview
+  }
   mode == auto_height {
     ctrl-enter shift-enter: editor::Newline
     ctrl-shift-enter:       editor::NewlineBelow

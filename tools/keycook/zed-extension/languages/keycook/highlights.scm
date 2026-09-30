@@ -1,9 +1,9 @@
 (comment) @comment
 
-(alias_name) @variable
+(alias_name) @constant
 (alias_value) @type
-(alias_ref) @variable
-(body_use (alias_ref) @function.macro)
+(alias_ref) @constant
+(body_use (alias_ref) @constant)
 
 (context_header (ident) @type)
 (context_header (string) @type)
