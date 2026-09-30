@@ -36,7 +36,7 @@
   },
   "ui_font_family": "DejaVuSansM Nerd Font",
   "buffer_font_family": "DejaVuSansM Nerd Font",
-  "base_keymap": "Zed",
+  "base_keymap": "None",                // keymap.json is the whole keymap, built by tools/build-keymap.py
   "vim_mode": true,
   "helix_mode": true,                   // Helix normal/select on top of vim; keymap.json overlays it
   "vim": {

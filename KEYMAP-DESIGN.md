@@ -249,7 +249,7 @@ Next:
 
 Open questions to settle before step 5:
 
-- Settled: `base_keymap: "None"` returns early in `load_default_keymap`, so it removes the chrome **and** vim.json. The keymap therefore keeps `base_keymap: "Zed"` plus `helix_mode` and overlays; "no defaults" is enforced by what the guide teaches, not by unloading files.
+- Settled: `base_keymap: "None"` returns early in `load_default_keymap`, so it removes the chrome **and** vim.json. The keymap therefore uses `None` and carries what it needs itself: `tools/build-keymap.py` filters the two upstream files by take/drop rules and appends `tools/overlay.jsonc`. Upstream copies live in `tools/upstream/` so a Zed upgrade is a diff of those two files.
 - Does Zed's Helix layer honour `x` extend-line and `;` collapse in `helix_select` the same as in
   `helix_normal`?
 - Is there an opener action for the git panel and outline context menus, or only mouse?
