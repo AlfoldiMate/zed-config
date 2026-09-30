@@ -9,3 +9,8 @@ repository = "https://github.com/AlfoldiMate/zed-config"
 [language_servers.keycook]
 name = "keycook"
 languages = ["keycook"]
+
+[grammars.keycook]
+repository = "file:///Users/Matthew/.config/zed"
+commit = "5231cb4a449ff633a8a2ff6b007c4c724ee75424"
+path = "tools/keycook/tree-sitter-keycook"
