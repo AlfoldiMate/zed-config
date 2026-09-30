@@ -418,5 +418,6 @@ mod tests {
         assert_eq!(slot_at("  d: vim::HelixDelete ", 22), Slot::Done);
         assert_eq!(slot_at("  d: vim::HelixDelete", 21), Slot::Action("vim::HelixDelete".into()));
         assert_eq!(slot_at("  ctrl-", 7), Slot::Header("ctrl-".into()));
+        assert_eq!(slot_at("  space f: file_finder::", 24), Slot::Action("file_finder::".into()));
     }
 }
