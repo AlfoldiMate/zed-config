@@ -14,3 +14,5 @@ logs/
 # keycook build output
 tools/keycook/target/
 tools/keycook/zed-extension/target/
+tools/keycook/zed-extension/grammars/
+tools/keycook/zed-extension/extension.wasm
