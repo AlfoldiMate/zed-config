@@ -38,6 +38,7 @@
   "buffer_font_family": "DejaVuSansM Nerd Font",
   "base_keymap": "Zed",
   "vim_mode": true,
+  "helix_mode": true,                   // Helix normal/select on top of vim; keymap.json overlays it
   "vim": {
     "default_mode": "normal",
     "use_system_clipboard": "always",   // LazyVim: clipboard=unnamedplus
