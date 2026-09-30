@@ -10,8 +10,6 @@ module.exports = grammar({
     [$.context_header, $.key],
     [$.context_header, $.body_use],
     [$.prefix_header, $.keys],
-    [$.actions],
-    [$.keys],
   ],
 
   rules: {
@@ -44,13 +42,13 @@ module.exports = grammar({
 
     binding: $ => seq(field('keys', $.keys), ':', field('actions', $.actions)),
 
-    keys: $ => seq(repeat1($.key), repeat(seq('|', repeat1($.key)))),
+    keys: $ => repeat1($.key),
     key: $ => choice($.ident, $.string),
 
     // shared word token for context words and keys
     ident: $ => /[^\s{}:"|@][^\s{}:"|]*/,
 
-    actions: $ => seq(repeat1($._action), repeat(seq('|', repeat1($._action)))),
+    actions: $ => $._action,
     _action: $ => choice($.null, $.action),
     null: $ => 'null',
     action: $ => seq(field('name', $.action_name), optional(field('args', $.args))),

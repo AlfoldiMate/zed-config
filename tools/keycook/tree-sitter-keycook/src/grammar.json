@@ -227,35 +227,11 @@
       ]
     },
     "keys": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "key"
-          }
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "|"
-              },
-              {
-                "type": "REPEAT1",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "key"
-                }
-              }
-            ]
-          }
-        }
-      ]
+      "type": "REPEAT1",
+      "content": {
+        "type": "SYMBOL",
+        "name": "key"
+      }
     },
     "key": {
       "type": "CHOICE",
@@ -275,35 +251,8 @@
       "value": "[^\\s{}:\"|@][^\\s{}:\"|]*"
     },
     "actions": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_action"
-          }
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "|"
-              },
-              {
-                "type": "REPEAT1",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_action"
-                }
-              }
-            ]
-          }
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "_action"
     },
     "_action": {
       "type": "CHOICE",
@@ -427,12 +376,6 @@
     ],
     [
       "prefix_header",
-      "keys"
-    ],
-    [
-      "actions"
-    ],
-    [
       "keys"
     ]
   ],

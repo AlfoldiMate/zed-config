@@ -911,7 +911,7 @@
       "left": "settings_editor::ToggleFocusNav",
     },
   },
-  // Workspace / > Pane | Dock / > Terminal
+  // Workspace / > Pane / | Dock / > Terminal
   {
     "context": "Workspace > (Pane || Dock) > Terminal",
     "bindings": {

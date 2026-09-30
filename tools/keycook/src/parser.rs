@@ -112,8 +112,14 @@ pub(crate) fn tokenize(src: &str, diags: &mut Vec<Diagnostic>) -> Vec<Tok> {
             }
             continue;
         }
+        let line_start = at_line_start;
         at_line_start = false;
         match c {
+            // `| Header {` — a widening block header; the pipe is part of the header text
+            b'|' if line_start && i + 1 < n && b[i + 1] == b' ' => {
+                toks.push(Tok::Word { text: "|".into(), key: false, quoted: false, span: Span::new(i, i + 1) });
+                i += 1;
+            }
             b'{' => {
                 toks.push(Tok::LBrace(Span::new(i, i + 1)));
                 i += 1;

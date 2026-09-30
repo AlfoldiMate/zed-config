@@ -25,8 +25,7 @@ ProjectPanel {
 
 Editor {                        // context block: header is a Zed predicate fragment
   escape: editor::Cancel        // key: action
-  left | shift-left: editor::MoveLeft | editor::SelectLeft   // pairs
-  cmd-x cmd-c: editor::Cut editor::Copy                      // n keys, n actions (or one for all)
+  cmd-c ctrl-c: editor::Copy    // several keys, one action; that is the only list form
   "g g": vim::StartOfDocument   // a quoted key with spaces is a sequence
   1..9: vim::Number($)          // range; $ is the value ($-1, $+1 for integers)
   mode == full {                // nested: Editor && mode == full
@@ -42,7 +41,11 @@ Editor {                        // context block: header is a Zed predicate frag
 }
 Picker > Editor { … }           // `>` is Zed's descendant operator
 Workspace {
-  > Pane { … }                  // a `>` header nests: Workspace > Pane
+  > Pane {                      // a `>` header extends the chain: Workspace > Pane
+    | Dock {                    // a `|` header widens the enclosing header: Workspace > (Pane || Dock)
+      > Terminal { … }          // Workspace > (Pane || Dock) > Terminal
+    }
+  }
 }
 ```
 

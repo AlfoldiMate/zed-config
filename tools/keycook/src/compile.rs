@@ -85,6 +85,10 @@ struct Ctx<'a> {
 #[derive(Clone)]
 struct Frame {
     pred: Option<String>,
+    /// predicate of the block enclosing this one (None at root or at top level)
+    outer_pred: Option<String>,
+    /// this block's own header, alias-expanded and normalised, with its leading `>` if any
+    header: Option<String>,
     path: String,
     section: usize,
     prefix: Vec<String>,
@@ -98,7 +102,7 @@ pub fn compile(src: &str, manifest: &Manifest, catalog: &Catalog, opts: &Options
     collect_bodies(&items, &mut cx.bodies, &mut cx.diags);
     // root section for bindings without any context
     cx.sections.push(Section { context: String::new(), path: "(no context)".into(), bindings: vec![], span: Span::new(0, 0), ancestors: vec![] });
-    let root = Frame { pred: None, path: String::new(), section: 0, prefix: vec![], ancestors: vec![] };
+    let root = Frame { pred: None, outer_pred: None, header: None, path: String::new(), section: 0, prefix: vec![], ancestors: vec![] };
     cx.walk(&items, &root);
     if opts.sort {
         cx.sort_by_specificity();
@@ -186,7 +190,22 @@ impl<'a> Ctx<'a> {
                         if !frame.prefix.is_empty() {
                             diag(&mut self.diags, b.header_span, Severity::Error, "a context block cannot sit inside a prefix block");
                         }
-                        let pred = match self.compose(frame.pred.as_deref(), h, b.header_span) {
+                        // `| X { … }` widens the enclosing block's header: parent-of-parent && (header || X)
+                        let (outer, header_text) = if let Some(alt) = h.trim().strip_prefix('|') {
+                            let Some(own) = frame.header.as_deref() else {
+                                diag(&mut self.diags, b.header_span, Severity::Error, "`| X` needs an enclosing context block whose header it widens");
+                                continue;
+                            };
+                            let alt = self.normalize_header(alt, b.header_span);
+                            let widened = match own.trim().strip_prefix('>') {
+                                Some(core) => format!("> ({} || {})", core.trim(), alt.trim()),
+                                None => format!("({} || {})", own.trim(), alt.trim()),
+                            };
+                            (frame.outer_pred.clone(), widened)
+                        } else {
+                            (frame.pred.clone(), self.normalize_header(h, b.header_span))
+                        };
+                        let pred = match self.compose(outer.as_deref(), &header_text, b.header_span) {
                             Some(p) => p,
                             None => continue,
                         };
@@ -195,7 +214,7 @@ impl<'a> Ctx<'a> {
                         ancestors.push(frame.section);
                         let idx = self.sections.len();
                         self.sections.push(Section { context: pred.clone(), path: path.clone(), bindings: vec![], span: b.span, ancestors: ancestors.clone() });
-                        let f = Frame { pred: Some(pred), path, section: idx, prefix: vec![], ancestors };
+                        let f = Frame { pred: Some(pred), outer_pred: outer, header: Some(header_text), path, section: idx, prefix: vec![], ancestors };
                         self.walk(&b.items, &f);
                     }
                 },
@@ -203,13 +222,18 @@ impl<'a> Ctx<'a> {
         }
     }
 
-    /// Build the Zed predicate for a header under `parent`.
-    fn compose(&mut self, parent: Option<&str>, header: &str, span: Span) -> Option<String> {
+    /// Alias expansion plus `&`/`|` → `&&`/`||`.
+    fn normalize_header(&mut self, header: &str, span: Span) -> String {
         let mut h = self.expand_aliases(header, span);
-        // normalise single & and | to Zed's doubled operators
         h = h.replace("&&", "\u{1}").replace("||", "\u{2}");
         h = h.replace('&', "&&").replace('|', "||");
         h = h.replace('\u{1}', "&&").replace('\u{2}', "||");
+        h.trim().to_string()
+    }
+
+    /// Build the Zed predicate for a normalised header under `parent`.
+    fn compose(&mut self, parent: Option<&str>, header: &str, span: Span) -> Option<String> {
+        let h = header.to_string();
         let pred = if let Some(rest) = h.trim().strip_prefix('>') {
             let rest = rest.trim();
             let Some(p) = parent else {
@@ -296,19 +320,18 @@ impl<'a> Ctx<'a> {
     }
 
     fn binding(&mut self, b: &Binding, frame: &Frame) {
-        let groups = b.keys.len();
-        let vgroups = b.values.len();
-        if vgroups != 1 && vgroups != groups {
-            diag(&mut self.diags, b.span, Severity::Error, format!("{groups} key groups but {vgroups} action groups around `|`"));
+        if b.keys.len() != 1 || b.values.len() != 1 {
+            diag(&mut self.diags, b.span, Severity::Error, "`|` is not allowed in a binding: write one line per action");
             return;
         }
-        for (gi, keys) in b.keys.iter().enumerate() {
-            let actions = if vgroups == 1 { &b.values[0] } else { &b.values[gi] };
-            self.bind_group(keys, actions, frame, b.span);
+        if b.values[0].len() != 1 {
+            diag(&mut self.diags, b.values_span, Severity::Error, format!("{} actions on one line: a binding is `keys: action`; write one line per action", b.values[0].len()));
+            return;
         }
+        self.bind_group(&b.keys[0], &b.values[0], frame, b.span);
     }
 
-    fn bind_group(&mut self, keys: &[KeyTok], actions: &[ActionTok], frame: &Frame, span: Span) {
+    fn bind_group(&mut self, keys: &[KeyTok], actions: &[ActionTok], frame: &Frame, _span: Span) {
         // expand ranges
         let mut expanded: Vec<(String, Option<String>, Span)> = Vec::new();
         let mut any_range = false;
@@ -331,16 +354,9 @@ impl<'a> Ctx<'a> {
                 }
             }
         }
-        if any_range && actions.len() != 1 {
-            diag(&mut self.diags, span, Severity::Error, "a range takes exactly one action (use `$` for the value)");
-            return;
-        }
-        if actions.len() != 1 && actions.len() != expanded.len() {
-            diag(&mut self.diags, span, Severity::Error, format!("{} keys but {} actions: give one action for all keys, or one per key", expanded.len(), actions.len()));
-            return;
-        }
-        for (i, (key, range_val, kspan)) in expanded.iter().enumerate() {
-            let act = if actions.len() == 1 { &actions[0] } else { &actions[i] };
+        let _ = any_range;
+        for (key, range_val, kspan) in expanded.iter() {
+            let act = &actions[0];
             let Some(value) = self.action_value(act, range_val.as_deref()) else { continue };
             let full = if frame.prefix.is_empty() { key.clone() } else { format!("{} {}", frame.prefix.join(" "), key) };
             let sec = &mut self.sections[frame.section];
