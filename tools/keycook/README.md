@@ -7,6 +7,7 @@ compiler's checks come from Zed's own action manifest and predicate grammar.
 ```
 keycook build keymap.kc            # → keymap.json next to it
 keycook check keymap.kc            # diagnostics only
+keycook fmt keymap.kc              # 2-space indent, actions aligned per block (--check, --stdout)
 keycook actions GoTo               # search the action manifest
 keycook lsp                        # language server on stdio (used by the Zed extension)
 ```
@@ -79,9 +80,11 @@ Rules the compiler enforces or applies:
    `keycook` language for `.kc` files, the tree-sitter grammar in `tools/keycook/tree-sitter-keycook`
    (built from this repository at the commit named in `extension.toml`), and `keycook lsp` as the
    language server.
-3. Open `keymap.kc`: diagnostics inline, completion for actions after `:` (with docs and argument
-   signatures), argument names inside `(`, context identifiers and attribute values in headers, hover
-   on actions and context identifiers, and the block tree in the outline.
+3. Open `keymap.kc`: diagnostics inline; completion is slot-aware: at the start of a line it offers
+   named keys and modifiers (`ctrl-` then narrows to `ctrl-enter`, `ctrl-tab`, …) plus context
+   identifiers, aliases and bodies; after `key:` it offers actions with docs and argument
+   signatures; inside `(` the argument names; after a complete action nothing. Hover on actions and
+   context identifiers, the block tree in the outline, and `format document` runs the formatter.
 4. Build with `keycook build keymap.kc`; Zed reloads `keymap.json` on save.
 
 ## Tests

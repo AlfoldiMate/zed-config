@@ -102,6 +102,8 @@ enum Slot {
     Args(String),
     /// after a key token on this line: an action name (partial text)
     Action(String),
+    /// after a complete action: nothing to offer
+    Done,
     /// start of a line or in a header: context identifiers, aliases, keys
     Header(String),
 }
@@ -115,23 +117,28 @@ fn slot_at(line: &str, col: usize) -> Slot {
             return Slot::Args(before[name_start..open].to_string());
         }
     }
-    // after a key token (word ending with a single ':' followed by whitespace)?
+    // after a key token (word ending with a single ':')? collect the words that follow it
     let mut after_key = false;
-    let mut last_word = String::new();
+    let mut after: Vec<String> = Vec::new();
     for w in before.split_whitespace() {
         if w.ends_with(':') && !w.ends_with("::") && w.len() > 1 {
             after_key = true;
-            last_word.clear();
-        } else {
-            last_word = w.to_string();
+            after.clear();
+        } else if after_key {
+            after.push(w.to_string());
         }
     }
-    let partial = if before.ends_with(char::is_whitespace) { String::new() } else { last_word };
+    let typing = !before.ends_with(char::is_whitespace);
     if after_key {
-        Slot::Action(partial)
-    } else {
-        Slot::Header(partial)
+        let partial = if typing { after.pop().unwrap_or_default() } else { String::new() };
+        let complete_before = after.iter().any(|w| w.contains("::") || w == "null");
+        if complete_before {
+            return Slot::Done;
+        }
+        return Slot::Action(partial);
     }
+    let last_word = before.split_whitespace().last().unwrap_or("").to_string();
+    Slot::Header(if typing { last_word } else { String::new() })
 }
 
 fn word_at(line: &str, col: usize) -> Option<String> {
@@ -163,6 +170,7 @@ impl LanguageServer for Backend {
                 completion_provider: Some(CompletionOptions { trigger_characters: Some(vec![":".into(), "(".into(), " ".into(), "@".into(), ",".into()]), resolve_provider: Some(false), ..Default::default() }),
                 hover_provider: Some(HoverProviderCapability::Simple(true)),
                 document_symbol_provider: Some(OneOf::Left(true)),
+                document_formatting_provider: Some(OneOf::Left(true)),
                 ..Default::default()
             },
             server_info: Some(ServerInfo { name: "keycook".into(), version: Some(env!("CARGO_PKG_VERSION").into()) }),
@@ -217,6 +225,7 @@ impl LanguageServer for Backend {
                     }
                 }
             }
+            Slot::Done => {}
             Slot::Action(partial) => {
                 let ns = partial.split("::").next().unwrap_or("").to_string();
                 items.push(CompletionItem { label: "null".into(), kind: Some(CompletionItemKind::KEYWORD), detail: Some("unbind this key here".into()), sort_text: Some("0".into()), ..Default::default() });
@@ -237,7 +246,20 @@ impl LanguageServer for Backend {
                     });
                 }
             }
-            Slot::Header(_) => {
+            Slot::Header(partial) => {
+                let mod_prefix = keys::MODIFIERS.iter().any(|m| partial.starts_with(&format!("{m}-")));
+                let base = partial.rsplit_once('-').map(|(p, _)| format!("{p}-")).unwrap_or_default();
+                for k in keys::NAMED_KEYS {
+                    let label = if mod_prefix { format!("{base}{k}") } else { k.to_string() };
+                    items.push(CompletionItem { label: label.clone(), kind: Some(CompletionItemKind::KEYWORD), detail: Some("key".into()), insert_text: Some(format!("{label}: ")), sort_text: Some(format!("0{label}")), ..Default::default() });
+                }
+                for m in keys::MODIFIERS {
+                    let label = if mod_prefix { format!("{base}{m}-") } else { format!("{m}-") };
+                    items.push(CompletionItem { label: label.clone(), kind: Some(CompletionItemKind::OPERATOR), detail: Some("modifier".into()), sort_text: Some(format!("1{label}")), ..Default::default() });
+                }
+                if mod_prefix {
+                    return Ok(Some(CompletionResponse::Array(items)));
+                }
                 let out = compile::compile(&text, &self.manifest, &self.catalog, &Options { auto_null: false, sort: true });
                 for (name, value) in &out.aliases {
                     items.push(CompletionItem { label: format!("@{name}"), kind: Some(CompletionItemKind::CONSTANT), detail: Some(value.clone()), ..Default::default() });
@@ -262,12 +284,6 @@ impl LanguageServer for Backend {
                     if vals.is_empty() {
                         items.push(CompletionItem { label: format!("{k} == "), kind: Some(CompletionItemKind::ENUM_MEMBER), ..Default::default() });
                     }
-                }
-                for m in keys::MODIFIERS {
-                    items.push(CompletionItem { label: format!("{m}-"), kind: Some(CompletionItemKind::OPERATOR), detail: Some("modifier".into()), ..Default::default() });
-                }
-                for k in keys::NAMED_KEYS {
-                    items.push(CompletionItem { label: format!("{k}:"), kind: Some(CompletionItemKind::KEYWORD), detail: Some("key".into()), ..Default::default() });
                 }
             }
         }
@@ -311,6 +327,17 @@ impl LanguageServer for Backend {
             })
         };
         Ok(md.map(|value| Hover { contents: HoverContents::Markup(MarkupContent { kind: MarkupKind::Markdown, value }), range: None }))
+    }
+
+    async fn formatting(&self, p: DocumentFormattingParams) -> Result<Option<Vec<TextEdit>>> {
+        let text = self.docs.read().await.get(&p.text_document.uri).cloned().unwrap_or_default();
+        let out = crate::fmt::format(&text);
+        if out == text {
+            return Ok(Some(vec![]));
+        }
+        let idx = LineIndex::new(&text);
+        let end = idx.position(text.len());
+        Ok(Some(vec![TextEdit { range: Range::new(Position::new(0, 0), end), new_text: out }]))
     }
 
     async fn document_symbol(&self, p: DocumentSymbolParams) -> Result<Option<DocumentSymbolResponse>> {
@@ -367,5 +394,8 @@ mod tests {
         assert_eq!(slot_at("  d: editor::Foo(sk", 19), Slot::Args("editor::Foo".into()));
         assert_eq!(slot_at("  mode == fu", 12), Slot::Header("fu".into()));
         assert_eq!(slot_at("  \":\": command", 14), Slot::Action("command".into()));
+        assert_eq!(slot_at("  d: vim::HelixDelete ", 22), Slot::Done);
+        assert_eq!(slot_at("  d: vim::HelixDelete", 21), Slot::Action("vim::HelixDelete".into()));
+        assert_eq!(slot_at("  ctrl-", 7), Slot::Header("ctrl-".into()));
     }
 }

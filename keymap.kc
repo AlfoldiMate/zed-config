@@ -9,41 +9,41 @@
 
 // ═══ shared panel keys: spliced into every list panel with `@panel-keys` ══════
 @panel-keys = {
-  ":": command_palette::Toggle
-  j:  menu::SelectNext                                 // ours
-  k:  menu::SelectPrevious
-  h:  menu::SelectParent                                  // ours
-  l:  menu::SelectChild
-  "g g":   menu::SelectFirst                                                     // ours
-  shift-g: menu::SelectLast                                                      // ours
-  ctrl-h:  workspace::ActivatePaneLeft   // ours
+  ":":     command_palette::Toggle
+  j:       menu::SelectNext  // ours
+  k:       menu::SelectPrevious
+  h:       menu::SelectParent  // ours
+  l:       menu::SelectChild
+  "g g":   menu::SelectFirst  // ours
+  shift-g: menu::SelectLast  // ours
+  ctrl-h:  workspace::ActivatePaneLeft  // ours
   ctrl-j:  workspace::ActivatePaneDown
   ctrl-k:  workspace::ActivatePaneUp
   ctrl-l:  workspace::ActivatePaneRight
   ]: {
-    b:        pane::ActivateNextItem
+    b:       pane::ActivateNextItem
     shift-b: pane::ActivateLastItem
   }
   [: {
-    b:        pane::ActivatePreviousItem
+    b:       pane::ActivatePreviousItem
     shift-b: pane::ActivateItem(0)
   }
   space: {
-    f:  file_finder::Toggle
-    /:  pane::DeploySearch
+    f:       file_finder::Toggle
+    /:       pane::DeploySearch
     shift-s: project_symbols::Toggle
-    ":":     command_palette::Toggle                                            // ours
-    e:  project_panel::ToggleFocus   // ours
-    g:  git_panel::ToggleFocus
-    t:  terminal_panel::ToggleFocus
-    x:  diagnostics::Deploy                         // ours
-    q:  workspace::CloseWindow
+    ":":     command_palette::Toggle  // ours
+    e:       project_panel::ToggleFocus  // ours
+    g:       git_panel::ToggleFocus
+    t:       terminal_panel::ToggleFocus
+    x:       diagnostics::Deploy  // ours
+    q:       workspace::CloseWindow
     w: {
-      h:  workspace::ActivatePaneLeft
-      j:  workspace::ActivatePaneDown
-      k:  workspace::ActivatePaneUp
-      l:  workspace::ActivatePaneRight
-      q:       pane::CloseActiveItem
+      h: workspace::ActivatePaneLeft
+      j: workspace::ActivatePaneDown
+      k: workspace::ActivatePaneUp
+      l: workspace::ActivatePaneRight
+      q: pane::CloseActiveItem
     }
   }
 }
@@ -70,16 +70,16 @@ menu {
 
 // ═══ the focus tree ═════════════════════════════════════════════════════════
 Workspace {
-  cmd-s:                 workspace::Save
-  cmd-shift-s:           workspace::SaveAs
-  cmd-p:                 file_finder::Toggle
-  cmd-shift-p:           command_palette::Toggle
-  cmd-shift-n:           workspace::NewWindow
-  cmd-shift-t:           pane::ReopenClosedItem
-  cmd-w:                 workspace::CloseActiveDock
-  cmd-,:                 zed::OpenSettings
-  ctrl-/:                terminal_panel::ToggleFocus                                    // ours
-  escape:                workspace::Unfollow
+  cmd-s:       workspace::Save
+  cmd-shift-s: workspace::SaveAs
+  cmd-p:       file_finder::Toggle
+  cmd-shift-p: command_palette::Toggle
+  cmd-shift-n: workspace::NewWindow
+  cmd-shift-t: pane::ReopenClosedItem
+  cmd-w:       workspace::CloseActiveDock
+  cmd-,:       zed::OpenSettings
+  ctrl-/:      terminal_panel::ToggleFocus  // ours
+  escape:      workspace::Unfollow
   !Terminal { cmd-n:     workspace::NewFile }
   debugger_running { f5: null }
   debugger_stopped {
@@ -160,10 +160,10 @@ Workspace {
         right:        settings_editor::ExpandNavEntry
         left:         settings_editor::CollapseNavEntry
         !search {
-          j:  settings_editor::FocusNextNavEntry
-          k:  settings_editor::FocusPreviousNavEntry
-          h:  settings_editor::CollapseNavEntry
-          l:  settings_editor::ExpandNavEntry
+          j:       settings_editor::FocusNextNavEntry
+          k:       settings_editor::FocusPreviousNavEntry
+          h:       settings_editor::CollapseNavEntry
+          l:       settings_editor::ExpandNavEntry
           "g g":   settings_editor::FocusFirstNavEntry
           shift-g: settings_editor::FocusLastNavEntry
         }
@@ -231,49 +231,49 @@ Workspace {
       escape:           menu::Cancel
       not_editing {
         @panel-keys
-        j down: vim::MenuSelectNext
-        k up:   vim::MenuSelectPrevious
-        h:  project_panel::CollapseSelectedEntry
-        l:  project_panel::ExpandSelectedEntry
+        j down:  vim::MenuSelectNext
+        k up:    vim::MenuSelectPrevious
+        h:       project_panel::CollapseSelectedEntry
+        l:       project_panel::ExpandSelectedEntry
         -:       project_panel::SelectParent
         ctrl-u:  project_panel::ScrollUp
         ctrl-d:  project_panel::ScrollDown
         enter t: project_panel::OpenPermanent
         escape:  vim::ToggleProjectPanelFocus
         0..9:    vim::Number($)
-        a:        project_panel::NewFile          // ours
+        a:       project_panel::NewFile  // ours
         shift-a: project_panel::NewDirectory
-        r:          project_panel::Rename                                       // ours
-        d:        project_panel::Trash                  // ours
+        r:       project_panel::Rename  // ours
+        d:       project_panel::Trash  // ours
         shift-d: project_panel::Delete
-        y:        project_panel::Copy             // ours
+        y:       project_panel::Copy  // ours
         shift-y: workspace::CopyRelativePath
-        x:  project_panel::Cut                     // ours
-        p:  project_panel::Paste
-        o:        project_panel::OpenSplitVertical   // ours
+        x:       project_panel::Cut  // ours
+        p:       project_panel::Paste
+        o:       project_panel::OpenSplitVertical  // ours
         shift-o: project_panel::OpenSplitHorizontal
-        v:          project_panel::OpenSplitVertical
-        s:          workspace::OpenWithSystem
-        /:          project_panel::NewSearchInDirectory
-        .:          project_panel::OpenContextMenu                              // ours
-        shift-h: project_panel::ToggleHideGitIgnore                          // ours
+        v:       project_panel::OpenSplitVertical
+        s:       workspace::OpenWithSystem
+        /:       project_panel::NewSearchInDirectory
+        .:       project_panel::OpenContextMenu  // ours
+        shift-h: project_panel::ToggleHideGitIgnore  // ours
         "}":     project_panel::SelectNextDirectory
         "{":     project_panel::SelectPrevDirectory
-        g:       { .: pane::RevealInProjectPanel }                                    // ours
+        g:       { .: pane::RevealInProjectPanel }  // ours
         z: {
-          t:  project_panel::ScrollCursorTop
-          z:  project_panel::ScrollCursorCenter
-          b:  project_panel::ScrollCursorBottom
-          c:     project_panel::CollapseAllEntries                              // ours
-          d:     project_panel::CompareMarkedFiles
+          t: project_panel::ScrollCursorTop
+          z: project_panel::ScrollCursorCenter
+          b: project_panel::ScrollCursorBottom
+          c: project_panel::CollapseAllEntries  // ours
+          d: project_panel::CompareMarkedFiles
         }
         ]: {
-          c:  project_panel::SelectNextGitEntry
-          d:  project_panel::SelectNextDiagnostic
+          c: project_panel::SelectNextGitEntry
+          d: project_panel::SelectNextDiagnostic
         }
         [: {
-          c:  project_panel::SelectPrevGitEntry
-          d:  project_panel::SelectPrevDiagnostic
+          c: project_panel::SelectPrevGitEntry
+          d: project_panel::SelectPrevDiagnostic
         }
       }
     }
@@ -286,18 +286,18 @@ Workspace {
       alt-enter: editor::OpenExcerpts
       j down:    vim::MenuSelectNext
       k up:      vim::MenuSelectPrevious
-      h:  outline_panel::CollapseSelectedEntry
-      l:  outline_panel::ExpandSelectedEntry
-      -:          outline_panel::SelectParent
-      ctrl-u: outline_panel::ScrollUp
-      ctrl-d: outline_panel::ScrollDown
-      enter:  editor::ToggleFocus
-      0..9:   vim::Number($)
+      h:         outline_panel::CollapseSelectedEntry
+      l:         outline_panel::ExpandSelectedEntry
+      -:         outline_panel::SelectParent
+      ctrl-u:    outline_panel::ScrollUp
+      ctrl-d:    outline_panel::ScrollDown
+      enter:     editor::ToggleFocus
+      0..9:      vim::Number($)
       z: {
-        t:  outline_panel::ScrollCursorTop
-        z:  outline_panel::ScrollCursorCenter
-        b:  outline_panel::ScrollCursorBottom
-        c:     outline_panel::CollapseAllEntries                                // ours
+        t: outline_panel::ScrollCursorTop
+        z: outline_panel::ScrollCursorCenter
+        b: outline_panel::ScrollCursorBottom
+        c: outline_panel::CollapseAllEntries  // ours
       }
     }
 
@@ -310,19 +310,19 @@ Workspace {
         @panel-keys
         escape: menu::Cancel
         "g f":  menu::Confirm
-        .:       git_panel::OpenMenu                                            // ours
-        g: { // ours
-          h:  git_panel::ActivateHistoryTab
-          c:  git_panel::ActivateChangesTab
+        .:      git_panel::OpenMenu  // ours
+        g: {  // ours
+          h: git_panel::ActivateHistoryTab
+          c: git_panel::ActivateChangesTab
         }
         ChangesList {
-          up:       git_panel::PreviousEntry
-          down:     git_panel::NextEntry
-          cmd-up:   git_panel::FirstEntry
-          cmd-down: git_panel::LastEntry
-          left h:   git_panel::CollapseSelectedEntry
-          right l:  git_panel::ExpandSelectedEntry
-          x:                git::ToggleStaged
+          up:                       git_panel::PreviousEntry
+          down:                     git_panel::NextEntry
+          cmd-up:                   git_panel::FirstEntry
+          cmd-down:                 git_panel::LastEntry
+          left h:                   git_panel::CollapseSelectedEntry
+          right l:                  git_panel::ExpandSelectedEntry
+          x:                        git::ToggleStaged
           shift-space:              git::StageRange
           shift-x:                  git::StageAll
           shift-u:                  git::UnstageAll
@@ -330,22 +330,22 @@ Workspace {
           cmd-shift-y:              git::UnstageFile
           alt-down tab shift-tab i: git_panel::FocusEditor
           backspace delete:         git::RestoreFile(skip_prompt=false)
-          s:        git::ToggleStaged                           // ours
-          shift-s: git::StageAll
-          u:          git::UnstageFile                                          // ours
-          d:          git::RestoreFile                                          // ours
-          c:        git::Commit  // ours
-          shift-c: git::Amend
-          shift-i: git::GenerateCommitMessage
-          f:        git::Fetch   // ours
-          p:        git::Pull
-          shift-p: git::Push
-          b:        git::Branch
-          shift-t: git::StashAll
-          o:        git::OpenFileDiff                  // ours
-          shift-o: git::OpenModifiedFiles
-          y:          workspace::CopyRelativePath                               // ours
-          z: { z: git::Diff }                                                   // ours
+          s:                        git::ToggleStaged  // ours
+          shift-s:                  git::StageAll
+          u:                        git::UnstageFile  // ours
+          d:                        git::RestoreFile  // ours
+          c:                        git::Commit  // ours
+          shift-c:                  git::Amend
+          shift-i:                  git::GenerateCommitMessage
+          f:                        git::Fetch  // ours
+          p:                        git::Pull
+          shift-p:                  git::Push
+          b:                        git::Branch
+          shift-t:                  git::StashAll
+          o:                        git::OpenFileDiff  // ours
+          shift-o:                  git::OpenModifiedFiles
+          y:                        workspace::CopyRelativePath  // ours
+          z: { z: git::Diff }  // ours
         }
       }
       CommitEditor {
@@ -356,8 +356,8 @@ Workspace {
           cmd-shift-enter:      git::Amend
           tab shift-tab alt-up: git_panel::FocusChanges
           alt-tab:              git::GenerateCommitMessage
-          ctrl-s:               git::Commit                                         // ours
-          ctrl-j:               git_panel::FocusChanges                             // ours
+          ctrl-s:               git::Commit  // ours
+          ctrl-j:               git_panel::FocusChanges  // ours
         }
       }
     }
@@ -365,22 +365,22 @@ Workspace {
     > AgentPanel {
       cmd-n: agent::NewThread
       > AcpThread {
-        cmd-i:                      agent::ToggleProfileSelector
-        shift-tab:                  agent::CycleModeSelector
-        alt-tab:                    agent::CycleFavoriteModels
-        cmd-alt-/:                  agent::ToggleModelSelector
-        cmd-y:                      agent::AllowOnce
-        cmd-alt-y:                  agent::AllowAlways
-        cmd-alt-z:                  agent::RejectOnce
-        pageup:                     agent::ScrollOutputPageUp
-        pagedown:                   agent::ScrollOutputPageDown
-        home:                       agent::ScrollOutputToTop
-        end:                        agent::ScrollOutputToBottom
-        up:                         agent::ScrollOutputLineUp
-        down:                       agent::ScrollOutputLineDown
-        shift-pageup:               agent::ScrollOutputToPreviousMessage
-        shift-pagedown:             agent::ScrollOutputToNextMessage
-        cmd-f:                      agent::ToggleSearch
+        cmd-i:          agent::ToggleProfileSelector
+        shift-tab:      agent::CycleModeSelector
+        alt-tab:        agent::CycleFavoriteModels
+        cmd-alt-/:      agent::ToggleModelSelector
+        cmd-y:          agent::AllowOnce
+        cmd-alt-y:      agent::AllowAlways
+        cmd-alt-z:      agent::RejectOnce
+        pageup:         agent::ScrollOutputPageUp
+        pagedown:       agent::ScrollOutputPageDown
+        home:           agent::ScrollOutputToTop
+        end:            agent::ScrollOutputToBottom
+        up:             agent::ScrollOutputLineUp
+        down:           agent::ScrollOutputLineDown
+        shift-pageup:   agent::ScrollOutputToPreviousMessage
+        shift-pagedown: agent::ScrollOutputToNextMessage
+        cmd-f:          agent::ToggleSearch
         > ModeSelector { cmd-enter: menu::Confirm }
         > Editor {
           shift-alt-y:     agent::KeepAll
@@ -403,7 +403,7 @@ Workspace {
             cmd-enter: agent::Chat
             enter:     editor::Newline
           }
-          shift-enter: editor::Newline                                          // ours
+          shift-enter:     editor::Newline  // ours
         }
         > AcpThreadSearchBar {
           escape:      agent::DismissThreadSearch
@@ -426,7 +426,7 @@ Workspace {
       }
       > BreakpointList {
         @panel-keys
-        t:          debugger::ToggleEnableBreakpoint                          // ours (space is the leader)
+        t:         debugger::ToggleEnableBreakpoint  // ours (space is the leader)
         backspace: debugger::UnsetBreakpoint
         left:      debugger::PreviousBreakpointProperty
         right:     debugger::NextBreakpointProperty
@@ -440,11 +440,11 @@ Workspace {
   }
 
   > ThreadsSidebar {
-    cmd-n:                   agents_sidebar::NewThreadInGroup
-    left:                    menu::SelectParent
-    right:                   menu::SelectChild
-    cmd-f:                   agents_sidebar::FocusSidebarFilter
-    shift-backspace:         agent::ArchiveSelectedThread
+    cmd-n:           agents_sidebar::NewThreadInGroup
+    left:            menu::SelectParent
+    right:           menu::SelectChild
+    cmd-f:           agents_sidebar::FocusSidebarFilter
+    shift-backspace: agent::ArchiveSelectedThread
     not_searching { shift-r: agent::RenameSelectedThread }
     !Editor {
       @panel-keys
@@ -467,9 +467,9 @@ Workspace {
     ctrl-w:        editor::DeleteToPreviousWordStart
     ctrl-p:        menu::SelectPrevious
     ctrl-n:        menu::SelectNext
-    ctrl-j:        menu::SelectNext                        // ours
+    ctrl-j:        menu::SelectNext  // ours
     ctrl-k:        menu::SelectPrevious
-    ctrl-l:        picker::TogglePreview                 // ours
+    ctrl-l:        picker::TogglePreview  // ours
     ctrl-v:        menu::SecondaryConfirm
   }
   > FileFinder | (FileFinder > Picker > Editor)         { cmd-shift-i:     search::ToggleIncludeIgnored }
@@ -572,7 +572,7 @@ Editor {
   ctrl-space:                editor::ShowCompletions
   f2:                        editor::Rename
   f12:                       editor::GoToDefinition
-  ctrl-s:                    workspace::Save                                             // ours
+  ctrl-s:                    workspace::Save  // ours
 
   // ─── real buffers ────────────────────────────────────────────────────────
   mode == full {
@@ -608,124 +608,124 @@ Editor {
       enter:                vim::Enter
     }
 
-    VimControl & !menu {                       // motions and prefix menus, shared by every modal mode
+    VimControl & !menu {  // motions and prefix menus, shared by every modal mode
       h left:    vim::Left
       l right:   vim::Right
       j down:    vim::Down
       k up:      vim::Up
       backspace: vim::WrappingLeft
       space:     vim::WrappingRight
-      w:  vim::NextWordStart
-      e:  vim::NextWordEnd
-      b:  vim::PreviousWordStart
-      shift-w: vim::NextWordStart(ignore_punctuation)
-      shift-e: vim::NextWordEnd(ignore_punctuation)
-      shift-b: vim::PreviousWordStart(ignore_punctuation)
-      0 home:  vim::StartOfLine
-      $ end:   vim::EndOfLine
-      ^:        vim::FirstNonWhitespace
-      _:        vim::StartOfLineDownward
-      + enter: vim::NextLineStart
-      -:        vim::PreviousLineStart
-      shift-g: vim::EndOfDocument
-      shift-h: vim::WindowTop
-      shift-m: vim::WindowMiddle
-      shift-l: vim::WindowBottom
-      "{":     vim::StartOfParagraph
-      "}":     vim::EndOfParagraph
+      w:         vim::NextWordStart
+      e:         vim::NextWordEnd
+      b:         vim::PreviousWordStart
+      shift-w:   vim::NextWordStart(ignore_punctuation)
+      shift-e:   vim::NextWordEnd(ignore_punctuation)
+      shift-b:   vim::PreviousWordStart(ignore_punctuation)
+      0 home:    vim::StartOfLine
+      $ end:     vim::EndOfLine
+      ^:         vim::FirstNonWhitespace
+      _:         vim::StartOfLineDownward
+      + enter:   vim::NextLineStart
+      -:         vim::PreviousLineStart
+      shift-g:   vim::EndOfDocument
+      shift-h:   vim::WindowTop
+      shift-m:   vim::WindowMiddle
+      shift-l:   vim::WindowBottom
+      "{":       vim::StartOfParagraph
+      "}":       vim::EndOfParagraph
       (:        vim::SentenceBackward
-      ):        vim::SentenceForward
-      %:        vim::Matching(match_quotes)
-      f:  vim::PushFindForward(before=false, multiline=false)
-      t:  vim::PushFindForward(before, multiline=false)
-      shift-f: vim::PushFindBackward(after=false, multiline=false)
-      shift-t: vim::PushFindBackward(after, multiline=false)
-      ;:  vim::RepeatFind
-      ,:  vim::RepeatFindReversed
-      /:  vim::Search
-      ?:  vim::Search(backwards)
-      n:        vim::MoveToNextMatch
-      shift-n: vim::MoveToPreviousMatch
-      *:    vim::MoveToNext
-      "#": vim::MoveToPrevious
-      m:  vim::PushMark
-      ':  vim::PushJump(line)
-      `:  vim::PushJump(line=false)
-      ctrl-o: pane::GoBack
-      ctrl-i: pane::GoForward
-      ctrl-^: pane::AlternateFile
-      ctrl-d: vim::ScrollDown
-      ctrl-u: vim::ScrollUp
-      ctrl-f: vim::PageDown
-      ctrl-b: vim::PageUp
-      ctrl-e: vim::LineDown
-      ctrl-y: vim::LineUp
-      v:        vim::ToggleVisual
-      shift-v: vim::ToggleVisualLine
-      ctrl-v:  vim::ToggleVisualBlock
-      shift-k: editor::Hover
-      shift-r: vim::ToggleReplace
-      q:        vim::ToggleRecord
-      shift-q: vim::ReplayLastRecording
-      "@":     vim::PushReplayRegister
-      1..9:    vim::Number($)
+      ):         vim::SentenceForward
+      %:         vim::Matching(match_quotes)
+      f:         vim::PushFindForward(before=false, multiline=false)
+      t:         vim::PushFindForward(before, multiline=false)
+      shift-f:   vim::PushFindBackward(after=false, multiline=false)
+      shift-t:   vim::PushFindBackward(after, multiline=false)
+      ;:         vim::RepeatFind
+      ,:         vim::RepeatFindReversed
+      /:         vim::Search
+      ?:         vim::Search(backwards)
+      n:         vim::MoveToNextMatch
+      shift-n:   vim::MoveToPreviousMatch
+      *:         vim::MoveToNext
+      "#":       vim::MoveToPrevious
+      m:         vim::PushMark
+      ':         vim::PushJump(line)
+      `:         vim::PushJump(line=false)
+      ctrl-o:    pane::GoBack
+      ctrl-i:    pane::GoForward
+      ctrl-^:    pane::AlternateFile
+      ctrl-d:    vim::ScrollDown
+      ctrl-u:    vim::ScrollUp
+      ctrl-f:    vim::PageDown
+      ctrl-b:    vim::PageUp
+      ctrl-e:    vim::LineDown
+      ctrl-y:    vim::LineUp
+      v:         vim::ToggleVisual
+      shift-v:   vim::ToggleVisualLine
+      ctrl-v:    vim::ToggleVisualBlock
+      shift-k:   editor::Hover
+      shift-r:   vim::ToggleReplace
+      q:         vim::ToggleRecord
+      shift-q:   vim::ReplayLastRecording
+      "@":       vim::PushReplayRegister
+      1..9:      vim::Number($)
       VimCount {
         0:   vim::Number(0)
         ":": vim::CountCommand
         %:   vim::GoToPercentage
       }
-      ":": command_palette::Toggle
-      .:        vim::Repeat
-      ctrl-h: workspace::ActivatePaneLeft   // ours
-      ctrl-j: workspace::ActivatePaneDown
-      ctrl-k: workspace::ActivatePaneUp
-      ctrl-l: workspace::ActivatePaneRight
+      ":":       command_palette::Toggle
+      .:         vim::Repeat
+      ctrl-h:    workspace::ActivatePaneLeft  // ours
+      ctrl-j:    workspace::ActivatePaneDown
+      ctrl-k:    workspace::ActivatePaneUp
+      ctrl-l:    workspace::ActivatePaneRight
 
-      g: {                                     // goto: only movement lives here
-        g:  vim::StartOfDocument
-        e:  vim::EndOfDocument
-        h:  vim::StartOfLine
-        l:  vim::EndOfLine
-        s:  vim::FirstNonWhitespace
-        t:  vim::WindowTop
-        c:  vim::WindowMiddle
-        b:  vim::WindowBottom
-        d:        editor::GoToDefinition
+      g: {  // goto: only movement lives here
+        g:       vim::StartOfDocument
+        e:       vim::EndOfDocument
+        h:       vim::StartOfLine
+        l:       vim::EndOfLine
+        s:       vim::FirstNonWhitespace
+        t:       vim::WindowTop
+        c:       vim::WindowMiddle
+        b:       vim::WindowBottom
+        d:       editor::GoToDefinition
         shift-d: editor::GoToDeclaration
-        y:        editor::GoToTypeDefinition
-        i:        editor::GoToImplementation
-        r:        editor::FindAllReferences
-        a:  pane::AlternateFile
-        n:  pane::ActivateNextItem
-        p:  pane::ActivatePreviousItem
-        f:  editor::OpenSelectedFilename
-        x:  editor::OpenUrl
-        w:  vim::HelixJumpToWord
-        .:  vim::HelixGotoLastModification
-        m:        editor::GoToHunk                    // ours
+        y:       editor::GoToTypeDefinition
+        i:       editor::GoToImplementation
+        r:       editor::FindAllReferences
+        a:       pane::AlternateFile
+        n:       pane::ActivateNextItem
+        p:       pane::ActivatePreviousItem
+        f:       editor::OpenSelectedFilename
+        x:       editor::OpenUrl
+        w:       vim::HelixJumpToWord
+        .:       vim::HelixGotoLastModification
+        m:       editor::GoToHunk  // ours
         shift-m: editor::GoToPreviousHunk
-        o:        outline::Toggle                      // ours
+        o:       outline::Toggle  // ours
         shift-o: project_symbols::Toggle
-        j:  vim::Down(display_lines)
-        k:  vim::Up(display_lines)
+        j:       vim::Down(display_lines)
+        k:       vim::Up(display_lines)
         v:       vim::RestoreVisualSelection
         q:       vim::PushRewrap
-        ]:  editor::GoToDiagnostic
-        [:  editor::GoToPreviousDiagnostic
+        ]:       editor::GoToDiagnostic
+        [:       editor::GoToPreviousDiagnostic
       }
       z: {
-        z:  editor::ScrollCursorCenter
-        t:  editor::ScrollCursorTop
-        b:  editor::ScrollCursorBottom
-        c:  editor::Fold
-        o:  editor::UnfoldLines
+        z:       editor::ScrollCursorCenter
+        t:       editor::ScrollCursorTop
+        b:       editor::ScrollCursorBottom
+        c:       editor::Fold
+        o:       editor::UnfoldLines
         shift-c: editor::FoldRecursive
         shift-o: editor::UnfoldRecursive
-        a:        editor::ToggleFold
+        a:       editor::ToggleFold
         shift-a: editor::ToggleFoldRecursive
         shift-m: editor::FoldAll
         shift-r: editor::UnfoldAll
-        f:               editor::FoldSelectedRanges
+        f:       editor::FoldSelectedRanges
       }
       shift-z: {
         shift-z: pane::CloseActiveItem(save_intent="save_all")
@@ -735,70 +735,70 @@ Editor {
       vim_mode == operator {
         escape ctrl-[ ctrl-c: vim::ClearOperators
         vim_operator == a | vim_operator == i | vim_operator == cs | vim_operator == helix_next | vim_operator == helix_previous {
-          w:        vim::Word
-          shift-w: vim::Word(ignore_punctuation)
-          s:  vim::Sentence
-          p:  vim::Paragraph
-          t:  vim::Tag
-          a:  vim::Argument
-          f:  vim::Method
-          c:  vim::Class
-          e:  vim::EntireFile
-          i:        vim::IndentObj
-          shift-i: vim::IndentObj(include_below)
-          ':     vim::Quotes
-          `:     vim::BackQuotes
-          "\"": vim::DoubleQuotes
-          q:     vim::MiniQuotes
-          "|": vim::VerticalBars
+          w:           vim::Word
+          shift-w:     vim::Word(ignore_punctuation)
+          s:           vim::Sentence
+          p:           vim::Paragraph
+          t:           vim::Tag
+          a:           vim::Argument
+          f:           vim::Method
+          c:           vim::Class
+          e:           vim::EntireFile
+          i:           vim::IndentObj
+          shift-i:     vim::IndentObj(include_below)
+          ':           vim::Quotes
+          `:           vim::BackQuotes
+          "\"":        vim::DoubleQuotes
+          q:           vim::MiniQuotes
+          "|":         vim::VerticalBars
           (:               vim::Parentheses(opening)
-          ) b: vim::Parentheses
-          [:    vim::SquareBrackets(opening)
+          ) b:         vim::Parentheses
+          [:           vim::SquareBrackets(opening)
           ] r:         vim::SquareBrackets
           "{":         vim::CurlyBrackets(opening)
           "}" shift-b: vim::CurlyBrackets
-          <:    vim::AngleBrackets(opening)
-          ">": vim::AngleBrackets
+          <:           vim::AngleBrackets(opening)
+          ">":         vim::AngleBrackets
           helix_mode {
-            m:  vim::AnyPair
-            t:  vim::Class
-            c:  vim::Comment
-            x:  vim::Tag
+            m: vim::AnyPair
+            t: vim::Class
+            c: vim::Comment
+            x: vim::Tag
           }
         }
         vim_operator == helix_m {
-          m:     vim::Matching(match_quotes)
-          s:  vim::PushHelixSurroundAdd
-          r:  vim::PushHelixSurroundReplace
-          d:  vim::PushHelixSurroundDelete
+          m: vim::Matching(match_quotes)
+          s: vim::PushHelixSurroundAdd
+          r: vim::PushHelixSurroundReplace
+          d: vim::PushHelixSurroundDelete
         }
         vim_operator == helix_next {
-          z:        vim::NextSectionStart
+          z:       vim::NextSectionStart
           shift-z: vim::NextSectionEnd
           * / c:   vim::NextComment
-          -:  vim::NextLesserIndent
-          +:  vim::NextGreaterIndent
-          =:  vim::NextSameIndent
-          b:        pane::ActivateNextItem
+          -:       vim::NextLesserIndent
+          +:       vim::NextGreaterIndent
+          =:       vim::NextSameIndent
+          b:       pane::ActivateNextItem
           shift-b: pane::ActivateLastItem
-          x:  editor::SelectSmallerSyntaxNode
-          d:  editor::GoToDiagnostic
-          g:  editor::GoToHunk
-          space: vim::InsertEmptyLineBelow
+          x:       editor::SelectSmallerSyntaxNode
+          d:       editor::GoToDiagnostic
+          g:       editor::GoToHunk
+          space:   vim::InsertEmptyLineBelow
         }
         vim_operator == helix_previous {
-          z:        vim::PreviousSectionStart
+          z:       vim::PreviousSectionStart
           shift-z: vim::PreviousSectionEnd
           * / c:   vim::PreviousComment
-          -:  vim::PreviousLesserIndent
-          +:  vim::PreviousGreaterIndent
-          =:  vim::PreviousSameIndent
-          b:        pane::ActivatePreviousItem
+          -:       vim::PreviousLesserIndent
+          +:       vim::PreviousGreaterIndent
+          =:       vim::PreviousSameIndent
+          b:       pane::ActivatePreviousItem
           shift-b: pane::ActivateItem(0)
-          x:  editor::SelectLargerSyntaxNode
-          d:  editor::GoToPreviousDiagnostic
-          g:  editor::GoToPreviousHunk
-          space: vim::InsertEmptyLineAbove
+          x:       editor::SelectLargerSyntaxNode
+          d:       editor::GoToPreviousDiagnostic
+          g:       editor::GoToPreviousHunk
+          space:   vim::InsertEmptyLineAbove
         }
       }
       vim_mode == waiting {
@@ -810,127 +810,127 @@ Editor {
 
       // ─── Helix: normal and select ───────────────────────────────────────
       @modal {
-        escape:  vim::SwitchToHelixNormalMode
-        ctrl-[:  editor::Cancel
-        h left:  vim::WrappingLeft
-        l right: vim::WrappingRight
-        j down:  vim::Down(display_lines)
-        k up:    vim::Up(display_lines)
-        t:  vim::PushFindForward(before, multiline)
-        f:  vim::PushFindForward(before=false, multiline)
-        shift-t: vim::PushFindBackward(after, multiline)
-        shift-f: vim::PushFindBackward(after=false, multiline)
-        alt-.:   vim::RepeatFind
-        shift-g: vim::HelixGotoLine
-        d:      vim::HelixDelete
-        alt-d: editor::Delete
-        c:      vim::HelixSubstitute
-        alt-c: vim::HelixSubstituteNoYank
-        y:        vim::HelixYank
-        p:        vim::HelixPaste
-        shift-p: vim::HelixPaste(before)
-        shift-r: editor::Paste
-        r:        vim::PushReplace
-        u:        vim::Undo
-        shift-u: editor::Redo
-        ctrl-r:  vim::Redo
-        ">":     vim::Indent
-        <:    vim::Outdent
-        =:    vim::AutoIndent
-        `:      vim::ConvertToLowerCase
-        alt-`: vim::ConvertToUpperCase
-        ~:      vim::ChangeCase
-        shift-j: vim::JoinLines
-        ctrl-a:  vim::Increment
-        ctrl-x:  vim::Decrement
-        x:        vim::HelixSelectLine
-        shift-x: editor::SelectLine
-        %:        editor::SelectAll
-        s:      vim::HelixSelectRegex
-        alt-s: editor::SplitSelectionIntoLines(keep_selections)
-        ;:      vim::HelixCollapseSelection
-        alt-;: vim::OtherEnd
-        ,:      vim::HelixKeepNewestSelection
+        escape:      vim::SwitchToHelixNormalMode
+        ctrl-[:      editor::Cancel
+        h left:      vim::WrappingLeft
+        l right:     vim::WrappingRight
+        j down:      vim::Down(display_lines)
+        k up:        vim::Up(display_lines)
+        t:           vim::PushFindForward(before, multiline)
+        f:           vim::PushFindForward(before=false, multiline)
+        shift-t:     vim::PushFindBackward(after, multiline)
+        shift-f:     vim::PushFindBackward(after=false, multiline)
+        alt-.:       vim::RepeatFind
+        shift-g:     vim::HelixGotoLine
+        d:           vim::HelixDelete
+        alt-d:       editor::Delete
+        c:           vim::HelixSubstitute
+        alt-c:       vim::HelixSubstituteNoYank
+        y:           vim::HelixYank
+        p:           vim::HelixPaste
+        shift-p:     vim::HelixPaste(before)
+        shift-r:     editor::Paste
+        r:           vim::PushReplace
+        u:           vim::Undo
+        shift-u:     editor::Redo
+        ctrl-r:      vim::Redo
+        ">":         vim::Indent
+        <:           vim::Outdent
+        =:           vim::AutoIndent
+        `:           vim::ConvertToLowerCase
+        alt-`:       vim::ConvertToUpperCase
+        ~:           vim::ChangeCase
+        shift-j:     vim::JoinLines
+        ctrl-a:      vim::Increment
+        ctrl-x:      vim::Decrement
+        x:           vim::HelixSelectLine
+        shift-x:     editor::SelectLine
+        %:           editor::SelectAll
+        s:           vim::HelixSelectRegex
+        alt-s:       editor::SplitSelectionIntoLines(keep_selections)
+        ;:           vim::HelixCollapseSelection
+        alt-;:       vim::OtherEnd
+        ,:           vim::HelixKeepNewestSelection
         shift-c:     vim::HelixDuplicateBelow
         alt-shift-c: vim::HelixDuplicateAbove
-        _:        vim::HelixTrimSelections
-        n:        vim::HelixSelectNext
-        shift-n: vim::HelixSelectPrevious
-        *:        buffer_search::UseSelectionForFind
-        alt-o:  editor::SelectLargerSyntaxNode
-        alt-i:  editor::SelectSmallerSyntaxNode
-        alt-p:  editor::SelectPreviousSyntaxNode
-        alt-n:  editor::SelectNextSyntaxNode
-        alt-b:  editor::MoveToStartOfLargerSyntaxNode
-        alt-e:  editor::MoveToEndOfLargerSyntaxNode
-        ctrl-c: editor::ToggleComments(advance_downwards=false, comment_empty_lines=false)
-        q:        vim::ReplayLastRecording
-        shift-q: vim::ToggleRecord
-        shift-h: pane::ActivatePreviousItem
-        shift-l: pane::ActivateNextItem
-        "\"":    vim::PushRegister
-        m:        vim::PushHelixMatch
-        ]:        vim::PushHelixNext(around)
-        [:        vim::PushHelixPrevious(around)
-        o:        vim::InsertLineBelow
-        shift-o: vim::InsertLineAbove
-        shift-i: vim::InsertFirstNonWhitespace
-        shift-a: vim::InsertEndOfLine
-        g:       { "r n" "r r" "r i" "r a": null }                                     // ours: keep g r instant
+        _:           vim::HelixTrimSelections
+        n:           vim::HelixSelectNext
+        shift-n:     vim::HelixSelectPrevious
+        *:           buffer_search::UseSelectionForFind
+        alt-o:       editor::SelectLargerSyntaxNode
+        alt-i:       editor::SelectSmallerSyntaxNode
+        alt-p:       editor::SelectPreviousSyntaxNode
+        alt-n:       editor::SelectNextSyntaxNode
+        alt-b:       editor::MoveToStartOfLargerSyntaxNode
+        alt-e:       editor::MoveToEndOfLargerSyntaxNode
+        ctrl-c:      editor::ToggleComments(advance_downwards=false, comment_empty_lines=false)
+        q:           vim::ReplayLastRecording
+        shift-q:     vim::ToggleRecord
+        shift-h:     pane::ActivatePreviousItem
+        shift-l:     pane::ActivateNextItem
+        "\"":        vim::PushRegister
+        m:           vim::PushHelixMatch
+        ]:           vim::PushHelixNext(around)
+        [:           vim::PushHelixPrevious(around)
+        o:           vim::InsertLineBelow
+        shift-o:     vim::InsertLineAbove
+        shift-i:     vim::InsertFirstNonWhitespace
+        shift-a:     vim::InsertEndOfLine
+        g:       { "r n" "r r" "r i" "r a": null }  // ours: keep g r instant
         space: {
-          f:  file_finder::Toggle
-          b:  tab_switcher::ToggleAll
-          s:        outline::Toggle
+          f:       file_finder::Toggle
+          b:       tab_switcher::ToggleAll
+          s:       outline::Toggle
           shift-s: project_symbols::Toggle
-          /:        pane::DeploySearch
-          k:  editor::Hover
-          r:  editor::Rename
-          a:  editor::ToggleCodeActions
-          d:  editor::GoToDiagnostic
-          c:        editor::ToggleComments(advance_downwards=false, comment_empty_lines=false)
-          y:  editor::Copy
-          p:  editor::Paste
-          h:  editor::SelectAllMatches
+          /:       pane::DeploySearch
+          k:       editor::Hover
+          r:       editor::Rename
+          a:       editor::ToggleCodeActions
+          d:       editor::GoToDiagnostic
+          c:       editor::ToggleComments(advance_downwards=false, comment_empty_lines=false)
+          y:       editor::Copy
+          p:       editor::Paste
+          h:       editor::SelectAllMatches
           w: {
-            v:  pane::SplitRight
-            s:  pane::SplitDown
-            h:  workspace::ActivatePaneLeft
-            j:  workspace::ActivatePaneDown
-            k:  workspace::ActivatePaneUp
-            l:  workspace::ActivatePaneRight
-            q:        pane::CloseActiveItem
+            v: pane::SplitRight
+            s: pane::SplitDown
+            h: workspace::ActivatePaneLeft
+            j: workspace::ActivatePaneDown
+            k: workspace::ActivatePaneUp
+            l: workspace::ActivatePaneRight
+            q: pane::CloseActiveItem
           }
           shift-g: {
-            l:  debugger::Start
-            r:  debugger::Restart
-            c:  debugger::Continue
-            h:  debugger::Pause
-            t:  debugger::Stop
-            i:  debugger::StepInto
-            o:  debugger::StepOut
-            n:  debugger::StepOver
-            b:         editor::ToggleBreakpoint
+            l: debugger::Start
+            r: debugger::Restart
+            c: debugger::Continue
+            h: debugger::Pause
+            t: debugger::Stop
+            i: debugger::StepInto
+            o: debugger::StepOut
+            n: debugger::StepOver
+            b: editor::ToggleBreakpoint
           }
-          .:        editor::OpenContextMenu                                     // ours
-          ":": command_palette::Toggle                                     // ours
-          e:  project_panel::ToggleFocus   // ours
-          g:  git_panel::ToggleFocus
-          t:  terminal_panel::ToggleFocus
-          x:  diagnostics::Deploy          // ours
-          m:  markdown::OpenPreviewToTheSide
-          u: {   // ours
-            w:  editor::ToggleSoftWrap
-            z:  workspace::ToggleCenteredLayout
-            i:  editor::ToggleInlayHints
-            d:  editor::ToggleDiagnostics
-            b:  git::Blame
+          .:       editor::OpenContextMenu  // ours
+          ":":     command_palette::Toggle  // ours
+          e:       project_panel::ToggleFocus  // ours
+          g:       git_panel::ToggleFocus
+          t:       terminal_panel::ToggleFocus
+          x:       diagnostics::Deploy  // ours
+          m:       markdown::OpenPreviewToTheSide
+          u: {  // ours
+            w: editor::ToggleSoftWrap
+            z: workspace::ToggleCenteredLayout
+            i: editor::ToggleInlayHints
+            d: editor::ToggleDiagnostics
+            b: git::Blame
           }
-          q:        workspace::CloseWindow                           // ours
+          q:       workspace::CloseWindow  // ours
           shift-q: zed::Quit
         }
         vim_mode == helix_normal {
-          i:        vim::HelixInsert
-          a:        vim::HelixAppend
+          i:       vim::HelixInsert
+          a:       vim::HelixAppend
           shift-a: vim::HelixInsertEndOfLine
           showing_code_actions {
             tab:       editor::ContextMenuNext
@@ -938,9 +938,9 @@ Editor {
           }
         }
         vim_mode == helix_select {
-          v:   vim::NormalBefore
-          i:  vim::InsertBefore
-          a:  vim::HelixAppend
+          v: vim::NormalBefore
+          i: vim::InsertBefore
+          a: vim::HelixAppend
         }
       }
     }
@@ -970,9 +970,9 @@ Editor {
     has_previous_tabstop & !showing_completions { shift-tab: editor::PreviousSnippetTabstop }
   }
   edit_prediction {
-    alt-tab:                                                    editor::AcceptEditPrediction
-    ctrl-cmd-right:                                             editor::AcceptNextWordEditPrediction
-    ctrl-cmd-down:                                              editor::AcceptNextLineEditPrediction
+    alt-tab:        editor::AcceptEditPrediction
+    ctrl-cmd-right: editor::AcceptNextWordEditPrediction
+    ctrl-cmd-down:  editor::AcceptNextLineEditPrediction
     edit_prediction_mode == eager & !showing_completions { tab: editor::AcceptEditPrediction }
   }
   !edit_prediction { alt-tab: editor::ShowEditPrediction }

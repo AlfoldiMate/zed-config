@@ -7,9 +7,13 @@
 
 (context_header (ident) @type)
 (context_header (string) @type)
+(context_header (operator) @operator)
+(context_header (paren) @punctuation.bracket)
 
 (key (ident) @string.special)
 (key (string) @string.special)
+(key (operator) @string.special)
+(key (paren) @string.special)
 (prefix_header (key (ident) @keyword))
 (prefix_header (key (string) @keyword))
 
@@ -18,4 +22,5 @@
 (null) @constant.builtin
 
 ["{" "}"] @punctuation.bracket
-[":" "|" "="] @punctuation.delimiter
+":" @punctuation.delimiter
+

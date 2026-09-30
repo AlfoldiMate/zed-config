@@ -17,13 +17,14 @@ module.exports = grammar({
 
     _item: $ => choice($.body_def, $.alias, $.block, $.binding, $.body_use),
 
-    body_def: $ => seq(field('name', $.alias_name), '=', '{', repeat($._item), '}'),
+    body_def: $ => seq(field('name', $.alias_name), '{', repeat($._item), '}'),
     body_use: $ => $.alias_ref,
 
     comment: $ => token(seq('//', /.*/)),
 
-    alias: $ => seq(field('name', $.alias_name), '=', field('value', $.alias_value)),
-    alias_name: $ => /@[A-Za-z_][A-Za-z0-9_-]*/,
+    alias: $ => seq(field('name', $.alias_name), field('value', $.alias_value)),
+    // the `@name =` head is one token so the parser never has to choose between an alias and a header
+    alias_name: $ => token(seq(/@[A-Za-z_][A-Za-z0-9_-]*/, /[ \t]*=/)),
     alias_value: $ => /[^\n{][^\n]*/,
 
     block: $ => seq(
@@ -34,7 +35,9 @@ module.exports = grammar({
     ),
 
     // a context expression: words, operators, parens, aliases, up to the `{`
-    context_header: $ => repeat1(choice($.ident, $.string, $.alias_ref, '|')),
+    context_header: $ => repeat1(choice($.ident, $.string, $.alias_ref, $.operator, $.paren)),
+    operator: $ => choice('&&', '||', '&', '|', '!=', '==', '=', '!', '>', '<'),
+    paren: $ => choice('(', ')'),
     alias_ref: $ => /@[A-Za-z_][A-Za-z0-9_-]*/,
 
     // `keys:` before a `{`
@@ -43,10 +46,10 @@ module.exports = grammar({
     binding: $ => seq(field('keys', $.keys), ':', field('actions', $.actions)),
 
     keys: $ => repeat1($.key),
-    key: $ => choice($.ident, $.string),
+    key: $ => choice($.ident, $.string, $.operator, $.paren),
 
     // shared word token for context words and keys
-    ident: $ => /[^\s{}:"|@][^\s{}:"|]*/,
+    ident: $ => /[^\s{}:"|@()&!=><][^\s{}:"|()&!=><]*/,
 
     actions: $ => $._action,
     _action: $ => choice($.null, $.action),

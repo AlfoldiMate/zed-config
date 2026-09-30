@@ -1,7 +1,7 @@
 use anyhow::{bail, Context};
 use clap::{Parser, Subcommand};
 use keycook::parser::Severity;
-use keycook::{catalog, compile, emit, lsp, manifest, parser};
+use keycook::{catalog, compile, emit, fmt, lsp, manifest, parser};
 use std::path::PathBuf;
 
 #[derive(Parser)]
@@ -40,6 +40,16 @@ enum Cmd {
         manifest: Option<PathBuf>,
         #[arg(long)]
         strict: bool,
+    },
+    /// Format a .kc file in place: 2-space indent, actions aligned per block
+    Fmt {
+        file: Option<PathBuf>,
+        /// Print the formatted file instead of writing it
+        #[arg(long)]
+        stdout: bool,
+        /// Exit 1 if the file is not already formatted
+        #[arg(long)]
+        check: bool,
     },
     /// Run the language server on stdin/stdout
     Lsp {
@@ -118,6 +128,22 @@ fn main() -> anyhow::Result<()> {
             eprintln!("{}: {bindings} bindings, {errors} error(s), {warnings} warning(s)", path.display());
             if errors > 0 || (strict && warnings > 0) {
                 std::process::exit(1);
+            }
+        }
+        Cmd::Fmt { file, stdout, check } => {
+            let path = file.unwrap_or_else(|| PathBuf::from("keymap.kc"));
+            let src = std::fs::read_to_string(&path).with_context(|| format!("reading {}", path.display()))?;
+            let out = fmt::format(&src);
+            if check {
+                if out != src {
+                    eprintln!("{}: not formatted", path.display());
+                    std::process::exit(1);
+                }
+            } else if stdout {
+                print!("{out}");
+            } else if out != src {
+                std::fs::write(&path, out)?;
+                eprintln!("{}: formatted", path.display());
             }
         }
         Cmd::Lsp { manifest } => {

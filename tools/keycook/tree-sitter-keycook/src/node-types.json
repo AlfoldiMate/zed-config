@@ -71,16 +71,6 @@
     }
   },
   {
-    "type": "alias_name",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "alias_ref",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "binding",
     "named": true,
     "fields": {
@@ -215,7 +205,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "alias_ref",
@@ -223,6 +213,14 @@
         },
         {
           "type": "ident",
+          "named": true
+        },
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "paren",
           "named": true
         },
         {
@@ -242,6 +240,14 @@
       "types": [
         {
           "type": "ident",
+          "named": true
+        },
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "paren",
           "named": true
         },
         {
@@ -265,6 +271,16 @@
         }
       ]
     }
+  },
+  {
+    "type": "operator",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "paren",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "prefix_header",
@@ -314,7 +330,35 @@
     }
   },
   {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "!=",
+    "named": false
+  },
+  {
+    "type": "&",
+    "named": false
+  },
+  {
+    "type": "&&",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
     "type": ":",
+    "named": false
+  },
+  {
+    "type": "<",
     "named": false
   },
   {
@@ -322,7 +366,23 @@
     "named": false
   },
   {
+    "type": "==",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
     "type": "action_name",
+    "named": true
+  },
+  {
+    "type": "alias_name",
+    "named": true
+  },
+  {
+    "type": "alias_ref",
     "named": true
   },
   {
@@ -356,6 +416,10 @@
   },
   {
     "type": "|",
+    "named": false
+  },
+  {
+    "type": "||",
     "named": false
   },
   {

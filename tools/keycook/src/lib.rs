@@ -3,6 +3,7 @@ pub mod ast;
 pub mod catalog;
 pub mod compile;
 pub mod emit;
+pub mod fmt;
 pub mod keys;
 pub mod lsp;
 pub mod manifest;
