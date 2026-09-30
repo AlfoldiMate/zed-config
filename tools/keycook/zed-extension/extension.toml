@@ -12,5 +12,5 @@ languages = ["keycook"]
 
 [grammars.keycook]
 repository = "file:///Users/Matthew/.config/zed"
-commit = "3a536df432aa8bcd16049087a2853e3be47506f6"
+commit = "d41e6320edaaa289a50eb63cdd236b559ecd260b"
 path = "tools/keycook/tree-sitter-keycook"
