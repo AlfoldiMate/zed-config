@@ -8,6 +8,7 @@ module.exports = grammar({
 
   conflicts: $ => [
     [$.context_header, $.key],
+    [$.context_header, $.body_use],
     [$.prefix_header, $.keys],
     [$.actions],
     [$.keys],
@@ -16,13 +17,16 @@ module.exports = grammar({
   rules: {
     source_file: $ => repeat($._item),
 
-    _item: $ => choice($.alias, $.block, $.binding),
+    _item: $ => choice($.body_def, $.alias, $.block, $.binding, $.body_use),
+
+    body_def: $ => seq(field('name', $.alias_name), '=', '{', repeat($._item), '}'),
+    body_use: $ => $.alias_ref,
 
     comment: $ => token(seq('//', /.*/)),
 
     alias: $ => seq(field('name', $.alias_name), '=', field('value', $.alias_value)),
     alias_name: $ => /@[A-Za-z_][A-Za-z0-9_-]*/,
-    alias_value: $ => /[^\n]+/,
+    alias_value: $ => /[^\n{][^\n]*/,
 
     block: $ => seq(
       field('header', choice($.context_header, $.prefix_header)),

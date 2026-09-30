@@ -17,6 +17,8 @@ pub struct Bound {
     pub span: Span,
     /// true when the compiler inserted it (auto null)
     pub synthetic: bool,
+    /// true when it came from a spliced `@body`; a later binding in the same block overrides it silently
+    pub from_body: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -43,6 +45,7 @@ pub struct Output {
     pub diags: Vec<Diagnostic>,
     pub items: Vec<Item>,
     pub aliases: Vec<(String, String)>,
+    pub bodies: Vec<String>,
 }
 
 #[derive(Debug, Clone)]
@@ -72,8 +75,11 @@ struct Ctx<'a> {
     catalog: &'a Catalog,
     opts: &'a Options,
     aliases: Vec<(String, String)>,
+    bodies: HashMap<String, Vec<Item>>,
     sections: Vec<Section>,
     diags: Vec<Diagnostic>,
+    use_depth: usize,
+    in_body: usize,
 }
 
 #[derive(Clone)]
@@ -87,8 +93,9 @@ struct Frame {
 
 pub fn compile(src: &str, manifest: &Manifest, catalog: &Catalog, opts: &Options) -> Output {
     let (items, diags) = parser::parse(src);
-    let mut cx = Ctx { manifest, catalog, opts, aliases: Vec::new(), sections: Vec::new(), diags };
+    let mut cx = Ctx { manifest, catalog, opts, aliases: Vec::new(), bodies: HashMap::new(), sections: Vec::new(), diags, use_depth: 0, in_body: 0 };
     collect_aliases(&items, &mut cx.aliases);
+    collect_bodies(&items, &mut cx.bodies, &mut cx.diags);
     // root section for bindings without any context
     cx.sections.push(Section { context: String::new(), path: "(no context)".into(), bindings: vec![], span: Span::new(0, 0), ancestors: vec![] });
     let root = Frame { pred: None, path: String::new(), section: 0, prefix: vec![], ancestors: vec![] };
@@ -98,7 +105,24 @@ pub fn compile(src: &str, manifest: &Manifest, catalog: &Catalog, opts: &Options
     }
     cx.post_checks();
     let aliases = cx.aliases.clone();
-    Output { sections: cx.sections, diags: cx.diags, items, aliases }
+    let mut bodies: Vec<String> = cx.bodies.keys().cloned().collect();
+    bodies.sort();
+    Output { sections: cx.sections, diags: cx.diags, items, aliases, bodies }
+}
+
+fn collect_bodies(items: &[Item], out: &mut HashMap<String, Vec<Item>>, diags: &mut Vec<Diagnostic>) {
+    for it in items {
+        match it {
+            Item::Body { name, items, span } => {
+                if out.insert(name.clone(), items.clone()).is_some() {
+                    diag(diags, *span, Severity::Error, format!("body `@{name}` is defined twice"));
+                }
+                collect_bodies(items, out, diags);
+            }
+            Item::Block(b) => collect_bodies(&b.items, out, diags),
+            _ => {}
+        }
+    }
 }
 
 fn collect_aliases(items: &[Item], out: &mut Vec<(String, String)>) {
@@ -123,7 +147,26 @@ impl<'a> Ctx<'a> {
     fn walk(&mut self, items: &[Item], frame: &Frame) {
         for it in items {
             match it {
-                Item::Alias { .. } => {}
+                Item::Alias { .. } | Item::Body { .. } => {}
+                Item::Use { name, span } => {
+                    let Some(body) = self.bodies.get(name).cloned() else {
+                        if self.aliases.iter().any(|(n, _)| n == name) {
+                            diag(&mut self.diags, *span, Severity::Error, format!("`@{name}` is a context alias, not a body; use it as a header: `@{name} {{ … }}`"));
+                        } else {
+                            diag(&mut self.diags, *span, Severity::Error, format!("unknown body `@{name}`"));
+                        }
+                        continue;
+                    };
+                    if self.use_depth > 16 {
+                        diag(&mut self.diags, *span, Severity::Error, format!("`@{name}` splices itself recursively"));
+                        continue;
+                    }
+                    self.use_depth += 1;
+                    self.in_body += 1;
+                    self.walk(&body, frame);
+                    self.in_body -= 1;
+                    self.use_depth -= 1;
+                }
                 Item::Binding(b) => self.binding(b, frame),
                 Item::Block(b) => match &b.header {
                     Header::Prefix(keys) => {
@@ -303,14 +346,18 @@ impl<'a> Ctx<'a> {
             let sec = &mut self.sections[frame.section];
             if let Some(prev) = sec.bindings.iter().position(|x| x.key == full) {
                 let prev_val = sec.bindings[prev].value.clone();
-                if prev_val == value {
+                if sec.bindings[prev].from_body && self.in_body == 0 {
+                    // overriding a spliced body binding is the point of splicing
+                } else if prev_val == value {
                     diag(&mut self.diags, *kspan, Severity::Warning, format!("`{full}` is bound twice to the same action in this block"));
                 } else {
                     diag(&mut self.diags, *kspan, Severity::Warning, format!("`{full}` rebinds a key already bound in this block; the earlier `{}` is dead", short(&prev_val)));
                 }
                 sec.bindings.remove(prev);
             }
-            sec.bindings.push(Bound { key: full, value, span: kspan.join(act.span()), synthetic: false });
+            let from_body = self.in_body > 0;
+            let sec = &mut self.sections[frame.section];
+            sec.bindings.push(Bound { key: full, value, span: kspan.join(act.span()), synthetic: false, from_body });
         }
     }
 
@@ -432,7 +479,7 @@ impl<'a> Ctx<'a> {
             for (pre, span, from) in to_add {
                 if self.opts.auto_null {
                     diag(&mut self.diags, span, Severity::Info, format!("added `{pre}: null` here: `{pre}` is a leaf in `{from}` and would make this chord wait 1 s"));
-                    self.sections[si].bindings.insert(0, Bound { key: pre, value: Value::Null, span, synthetic: true });
+                    self.sections[si].bindings.insert(0, Bound { key: pre, value: Value::Null, span, synthetic: true, from_body: false });
                 } else {
                     diag(&mut self.diags, span, Severity::Warning, format!("`{pre}` is a leaf in `{from}`, so this chord waits 1 s; add `{pre}: null` here"));
                 }

@@ -3,6 +3,7 @@
 (alias_name) @variable
 (alias_value) @type
 (alias_ref) @variable
+(body_use (alias_ref) @function.macro)
 
 (context_header (ident) @type)
 (context_header (string) @type)

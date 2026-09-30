@@ -44,6 +44,8 @@ pub(crate) enum Tok {
     RBrace(Span),
     /// `@name = value`
     Alias { name: String, value: String, span: Span },
+    /// `@name = {` … the `{` is left in the stream
+    BodyDef { name: String, span: Span },
     Newline(Span),
 }
 
@@ -51,7 +53,7 @@ impl Tok {
     fn span(&self) -> Span {
         match self {
             Tok::Word { span, .. } | Tok::Pipe(span) | Tok::LBrace(span) | Tok::RBrace(span) | Tok::Newline(span) => *span,
-            Tok::Alias { span, .. } => *span,
+            Tok::Alias { span, .. } | Tok::BodyDef { span, .. } => *span,
         }
     }
 }
@@ -93,7 +95,17 @@ pub(crate) fn tokenize(src: &str, diags: &mut Vec<Diagnostic>) -> Vec<Tok> {
             let line = &src[start..i];
             if let Some(eq) = line.find('=') {
                 let name = line[1..eq].trim().to_string();
-                let value = line[eq + 1..].trim().to_string();
+                let value_raw = &line[eq + 1..];
+                let value_text = value_raw.split("//").next().unwrap_or("").trim();
+                if value_text == "{" {
+                    // a body definition: rewind to the `{` so the block parser sees it
+                    let brace = start + eq + 1 + value_raw.find('{').unwrap();
+                    toks.push(Tok::BodyDef { name, span: Span::new(start, brace) });
+                    i = brace;
+                    at_line_start = false;
+                    continue;
+                }
+                let value = value_text.to_string();
                 toks.push(Tok::Alias { name, value, span: Span::new(start, i) });
             } else {
                 diags.push(Diagnostic { span: Span::new(start, i), message: "alias needs `@name = expression`".into(), severity: Severity::Error });
@@ -257,6 +269,18 @@ impl<'a> Parser<'a> {
                     self.pos += 1;
                     items.push(Item::Alias { name, value, span });
                 }
+                Some(Tok::BodyDef { name, span }) => {
+                    self.pos += 1;
+                    match self.peek().cloned() {
+                        Some(Tok::LBrace(open)) => {
+                            self.pos += 1;
+                            let inner = self.items(Some(open));
+                            let end = self.toks.get(self.pos - 1).map(|t| t.span().end).unwrap_or(span.end);
+                            items.push(Item::Body { name, items: inner, span: Span::new(span.start, end) });
+                        }
+                        _ => self.err(span, "expected `{` after `@name =`"),
+                    }
+                }
                 Some(Tok::LBrace(sp)) => {
                     self.pos += 1;
                     self.err(sp, "`{` needs a header: a context expression or `keys:`");
@@ -285,7 +309,7 @@ impl<'a> Parser<'a> {
         let mut lbrace: Option<usize> = None;
         while let Some(t) = self.toks.get(j) {
             match t {
-                Tok::Newline(_) | Tok::RBrace(_) | Tok::Alias { .. } => break,
+                Tok::Newline(_) | Tok::RBrace(_) | Tok::Alias { .. } | Tok::BodyDef { .. } => break,
                 Tok::LBrace(_) => {
                     lbrace = Some(j);
                     break;
@@ -294,6 +318,16 @@ impl<'a> Parser<'a> {
                 _ => {}
             }
             j += 1;
+        }
+        // a lone `@name` on its own line: splice a body
+        if lbrace.is_none() && first_key.is_none() && j == start + 1 {
+            if let Tok::Word { text, span, quoted: false, .. } = &self.toks[start] {
+                if let Some(name) = text.strip_prefix('@') {
+                    let item = Item::Use { name: name.to_string(), span: *span };
+                    self.pos = start + 1;
+                    return Some(item);
+                }
+            }
         }
         match (lbrace, first_key) {
             // `HEADER {` with no key token before it: a context block
@@ -382,7 +416,7 @@ impl<'a> Parser<'a> {
         let mut vend = vstart;
         while let Some(t) = self.peek().cloned() {
             match t {
-                Tok::Word { key: true, .. } | Tok::Newline(_) | Tok::RBrace(_) | Tok::LBrace(_) | Tok::Alias { .. } => break,
+                Tok::Word { key: true, .. } | Tok::Newline(_) | Tok::RBrace(_) | Tok::LBrace(_) | Tok::Alias { .. } | Tok::BodyDef { .. } => break,
                 Tok::Pipe(_) => {
                     self.pos += 1;
                     values.push(Vec::new());

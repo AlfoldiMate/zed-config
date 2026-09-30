@@ -6,7 +6,29 @@
 // Learn it from KEYMAP.md.
 
 @modal = vim_mode == helix_normal | vim_mode == helix_select
-@lists = !Editor & !Terminal
+
+// ═══ shared panel keys: spliced into every list panel with `@panel-keys` ══════
+@panel-keys = {
+  ":":     command_palette::Toggle
+  j k:     menu::SelectNext menu::SelectPrevious                                 // ours
+  h l:     menu::SelectParent menu::SelectChild                                  // ours
+  "g g":   menu::SelectFirst                                                     // ours
+  shift-g: menu::SelectLast                                                      // ours
+  ctrl-h ctrl-j ctrl-k ctrl-l: workspace::ActivatePaneLeft workspace::ActivatePaneDown workspace::ActivatePaneUp workspace::ActivatePaneRight   // ours
+  ]: { b shift-b: pane::ActivateNextItem pane::ActivateLastItem }
+  [: { b shift-b: pane::ActivatePreviousItem pane::ActivateItem(0) }
+  space: {
+    f /:      file_finder::Toggle pane::DeploySearch
+    shift-s:  project_symbols::Toggle
+    ":":      command_palette::Toggle                                            // ours
+    e g t:    project_panel::ToggleFocus git_panel::ToggleFocus terminal_panel::ToggleFocus   // ours
+    x q:      diagnostics::Deploy workspace::CloseWindow                         // ours
+    w: {
+      h j k l: workspace::ActivatePaneLeft workspace::ActivatePaneDown workspace::ActivatePaneUp workspace::ActivatePaneRight
+      q:       pane::CloseActiveItem
+    }
+  }
+}
 
 // ═══ everywhere: list navigation, cancel, app ═══════════════════════════════
 down tab:             menu::SelectNext
@@ -175,12 +197,10 @@ Workspace {
       shift-up shift-down: menu::SelectPrevious menu::SelectNext
       escape: menu::Cancel
       not_editing {
-        ":":     command_palette::Toggle
+        @panel-keys
         j down:  vim::MenuSelectNext
         k up:    vim::MenuSelectPrevious
         h l:     project_panel::CollapseSelectedEntry project_panel::ExpandSelectedEntry
-        "g g":   menu::SelectFirst
-        shift-g: menu::SelectLast
         -:       project_panel::SelectParent
         ctrl-u ctrl-d: project_panel::ScrollUp project_panel::ScrollDown
         enter t: project_panel::OpenPermanent
@@ -210,14 +230,13 @@ Workspace {
     }
 
     > OutlinePanel & not_editing {
+      @panel-keys
       escape:     menu::Cancel
       left right: outline_panel::CollapseSelectedEntry outline_panel::ExpandSelectedEntry
       alt-enter:  editor::OpenExcerpts
       j down:     vim::MenuSelectNext
       k up:       vim::MenuSelectPrevious
       h l:        outline_panel::CollapseSelectedEntry outline_panel::ExpandSelectedEntry
-      "g g":      menu::SelectFirst
-      shift-g:    menu::SelectLast
       -:          outline_panel::SelectParent
       ctrl-u ctrl-d: outline_panel::ScrollUp outline_panel::ScrollDown
       enter:      editor::ToggleFocus
@@ -233,8 +252,8 @@ Workspace {
       cmd-shift-enter:  git::Amend
       cmd-ctrl-y cmd-ctrl-shift-y: git::StageAll git::UnstageAll
       (ChangesList | HistoryList) & !GitBranchSelector & !GitRepositorySelector {
+        @panel-keys
         escape:  menu::Cancel
-        j k:     menu::SelectNext menu::SelectPrevious
         "g f":   menu::Confirm
         .:       git_panel::OpenMenu                                            // ours
         g: { h c: git_panel::ActivateHistoryTab git_panel::ActivateChangesTab } // ours
@@ -243,8 +262,6 @@ Workspace {
           cmd-up cmd-down:  git_panel::FirstEntry git_panel::LastEntry
           left h:           git_panel::CollapseSelectedEntry
           right l:          git_panel::ExpandSelectedEntry
-          "g g":            menu::SelectFirst
-          shift-g:          menu::SelectLast
           x:                git::ToggleStaged
           shift-space:      git::StageRange
           shift-x:          git::StageAll
@@ -320,12 +337,14 @@ Workspace {
     > DebugPanel {
       cmd-t cmd-i: debugger::ToggleThreadPicker debugger::ToggleSessionPicker
       > VariableList {
+        @panel-keys
         left right: variable_list::CollapseSelectedEntry variable_list::ExpandSelectedEntry
         enter:            variable_list::EditVariable
         delete backspace: variable_list::RemoveWatch
         alt-enter:        variable_list::AddWatch
       }
       > BreakpointList {
+        @panel-keys
         t:          debugger::ToggleEnableBreakpoint                          // ours (space is the leader)
         backspace:  debugger::UnsetBreakpoint
         left right: debugger::PreviousBreakpointProperty debugger::NextBreakpointProperty
@@ -345,7 +364,7 @@ Workspace {
     shift-backspace:  agent::ArchiveSelectedThread
     not_searching { shift-r: agent::RenameSelectedThread }
     !Editor {
-      j k h l:   menu::SelectNext menu::SelectPrevious menu::SelectParent menu::SelectChild
+      @panel-keys
       /:         agents_sidebar::FocusSidebarFilter
       "d d":     agent::RemoveSelectedThread
       o shift-o: agents_sidebar::NewThreadInGroup
@@ -699,28 +718,5 @@ Editor {
   mode == auto_height {
     ctrl-enter shift-enter: editor::Newline
     ctrl-shift-enter:       editor::NewlineBelow
-  }
-}
-
-// ═══ every panel and list, wherever it sits (matches at the panel node) ═════
-@lists {
-  ":":     command_palette::Toggle
-  j k:     menu::SelectNext menu::SelectPrevious                                 // ours
-  h l:     menu::SelectParent menu::SelectChild                                  // ours
-  "g g":   menu::SelectFirst                                                     // ours
-  shift-g: menu::SelectLast                                                      // ours
-  ctrl-h ctrl-j ctrl-k ctrl-l: workspace::ActivatePaneLeft workspace::ActivatePaneDown workspace::ActivatePaneUp workspace::ActivatePaneRight   // ours
-  ]: { b shift-b: pane::ActivateNextItem pane::ActivateLastItem }
-  [: { b shift-b: pane::ActivatePreviousItem pane::ActivateItem(0) }
-  space: {
-    f /:      file_finder::Toggle pane::DeploySearch
-    shift-s:  project_symbols::Toggle
-    ":":      command_palette::Toggle                                            // ours
-    e g t:    project_panel::ToggleFocus git_panel::ToggleFocus terminal_panel::ToggleFocus   // ours
-    x q:      diagnostics::Deploy workspace::CloseWindow                         // ours
-    w: {
-      h j k l: workspace::ActivatePaneLeft workspace::ActivatePaneDown workspace::ActivatePaneUp workspace::ActivatePaneRight
-      q:       pane::CloseActiveItem
-    }
   }
 }

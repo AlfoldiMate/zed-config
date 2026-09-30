@@ -15,6 +15,13 @@ keycook lsp                        # language server on stdio (used by the Zed e
 
 ```
 @modal = vim_mode == helix_normal | vim_mode == helix_select     // alias for a header
+@nav = {                        // a body: bindings and blocks, spliced by name
+  j k: menu::SelectNext menu::SelectPrevious
+}
+ProjectPanel {
+  @nav                          // splice; a later line in the same block overrides silently
+  j: vim::MenuSelectNext
+}
 
 Editor {                        // context block: header is a Zed predicate fragment
   escape: editor::Cancel        // key: action
@@ -41,6 +48,10 @@ Workspace {
 
 Rules the compiler enforces or applies:
 
+- **Bodies versus aliases.** `@x = predicate` is a header alias, used as `@x { … }`. `@x = { … }`
+  is a body, used as a bare `@x` line; it can hold blocks too, which nest relative to the use site.
+  Bodies share keys across parents that have nothing in common (panels at different depths); `|`
+  in a header shares a subtree under alternative ancestors.
 - **Nesting is `&&` on one node.** Two node names in one block (`Pane { Editor { … } }`) are an
   error; use `> Editor`. Aliases and `|` groups are parenthesised for you.
 - **Later wins at the same node**, exactly as in Zed. Sections are emitted in source order but sorted

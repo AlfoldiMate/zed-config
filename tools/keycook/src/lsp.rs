@@ -242,6 +242,9 @@ impl LanguageServer for Backend {
                 for (name, value) in &out.aliases {
                     items.push(CompletionItem { label: format!("@{name}"), kind: Some(CompletionItemKind::CONSTANT), detail: Some(value.clone()), ..Default::default() });
                 }
+                for name in &out.bodies {
+                    items.push(CompletionItem { label: format!("@{name}"), kind: Some(CompletionItemKind::SNIPPET), detail: Some("body: splice its bindings here".into()), ..Default::default() });
+                }
                 for n in &self.catalog.nodes {
                     items.push(CompletionItem { label: n.name.clone(), kind: Some(CompletionItemKind::CLASS), detail: Some(if n.doc.is_empty() { "node".into() } else { n.doc.clone() }), ..Default::default() });
                 }
@@ -296,7 +299,7 @@ impl LanguageServer for Backend {
             Some(s)
         } else if let Some(name) = word.strip_prefix('@') {
             let out = compile::compile(&text, &self.manifest, &self.catalog, &Options { auto_null: false, sort: true });
-            out.aliases.iter().find(|(n, _)| n == name).map(|(n, v)| format!("**@{n}** = `{v}`"))
+            out.aliases.iter().find(|(n, _)| n == name).map(|(n, v)| format!("**@{n}** = `{v}`")).or_else(|| out.bodies.iter().find(|b| b.as_str() == name).map(|n| format!("**@{n}** — a body; `@{n}` on its own line splices its bindings, later lines override")))
         } else {
             self.catalog.doc_for(&word).or_else(|| {
                 let w = word.trim_end_matches(':');
@@ -329,6 +332,14 @@ impl LanguageServer for Backend {
                     Item::Alias { name, value, span } => {
                         #[allow(deprecated)]
                         v.push(DocumentSymbol { name: format!("@{name}"), detail: Some(value.clone()), kind: SymbolKind::CONSTANT, tags: None, deprecated: None, range: idx.range(*span), selection_range: idx.range(*span), children: None });
+                    }
+                    Item::Body { name, items, span } => {
+                        #[allow(deprecated)]
+                        v.push(DocumentSymbol { name: format!("@{name} = {{ }}"), detail: Some("body".into()), kind: SymbolKind::STRUCT, tags: None, deprecated: None, range: idx.range(*span), selection_range: idx.range(*span), children: Some(conv(items, idx)) });
+                    }
+                    Item::Use { name, span } => {
+                        #[allow(deprecated)]
+                        v.push(DocumentSymbol { name: format!("@{name}"), detail: Some("splice".into()), kind: SymbolKind::EVENT, tags: None, deprecated: None, range: idx.range(*span), selection_range: idx.range(*span), children: None });
                     }
                     Item::Binding(_) => {}
                 }

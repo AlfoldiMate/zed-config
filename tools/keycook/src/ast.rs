@@ -26,6 +26,10 @@ pub enum Item {
     Block(Block),
     /// `keys: actions`
     Binding(Binding),
+    /// `@name = { … }` — a named body of items, spliced wherever `@name` appears on its own line.
+    Body { name: String, items: Vec<Item>, span: Span },
+    /// `@name` on its own line inside a block: splice that body here.
+    Use { name: String, span: Span },
 }
 
 #[derive(Debug, Clone)]

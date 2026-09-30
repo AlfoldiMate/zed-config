@@ -15,6 +15,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "body_def"
+        },
+        {
+          "type": "SYMBOL",
           "name": "alias"
         },
         {
@@ -24,8 +28,48 @@
         {
           "type": "SYMBOL",
           "name": "binding"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "body_use"
         }
       ]
+    },
+    "body_def": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "alias_name"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_item"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "body_use": {
+      "type": "SYMBOL",
+      "name": "alias_ref"
     },
     "comment": {
       "type": "TOKEN",
@@ -74,7 +118,7 @@
     },
     "alias_value": {
       "type": "PATTERN",
-      "value": "[^\\n]+"
+      "value": "[^\\n{][^\\n]*"
     },
     "block": {
       "type": "SEQ",
@@ -376,6 +420,10 @@
     [
       "context_header",
       "key"
+    ],
+    [
+      "context_header",
+      "body_use"
     ],
     [
       "prefix_header",
