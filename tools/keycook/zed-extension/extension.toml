@@ -1,0 +1,11 @@
+id = "keycook"
+name = "keycook"
+version = "0.1.0"
+schema_version = 1
+authors = ["Mate Alfoldi"]
+description = "Language support for keycook .kc keymap files: diagnostics, completion and hover through the keycook language server."
+repository = "https://github.com/AlfoldiMate/zed-config"
+
+[language_servers.keycook]
+name = "keycook"
+languages = ["keycook"]

@@ -1,0 +1,292 @@
+[
+  {
+    "type": "action",
+    "named": true,
+    "fields": {
+      "args": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "args",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "action_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "actions",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "action",
+          "named": true
+        },
+        {
+          "type": "null",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "alias",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "alias_name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "alias_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "alias_name",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "alias_ref",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "binding",
+    "named": true,
+    "fields": {
+      "actions": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "actions",
+            "named": true
+          }
+        ]
+      },
+      "keys": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "keys",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "block",
+    "named": true,
+    "fields": {
+      "header": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "context_header",
+            "named": true
+          },
+          {
+            "type": "prefix_header",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "alias",
+          "named": true
+        },
+        {
+          "type": "binding",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "context_header",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "alias_ref",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "key",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "keys",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "key",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "prefix_header",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "key",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "alias",
+          "named": true
+        },
+        {
+          "type": "binding",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "action_name",
+    "named": true
+  },
+  {
+    "type": "alias_value",
+    "named": true
+  },
+  {
+    "type": "args",
+    "named": true
+  },
+  {
+    "type": "comment",
+    "named": true,
+    "extra": true
+  },
+  {
+    "type": "ident",
+    "named": true
+  },
+  {
+    "type": "null",
+    "named": true
+  },
+  {
+    "type": "string",
+    "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]

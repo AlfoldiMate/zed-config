@@ -230,6 +230,8 @@ in one view is a gap to decide, and the atlas report lists it.
 
 Done:
 
+- `tools/keycook`: the DSL compiler, checks, language server and Zed extension; `keymap.kc` is the
+  whole keymap in it.
 - `ZED-CONTEXTS.md`, `ZED-ACTIONS.md`, `ZED-KEYMAP-REDUNDANCY.md` from the 1.21.0 source and binary.
 - `tools/keymap-atlas.html`: focus tree with state flags, effective keymap per chain with shadowing and
   chord warnings, binding explorer, and the rule editor with report and keymap export.

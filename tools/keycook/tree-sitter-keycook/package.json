@@ -1,0 +1,14 @@
+{
+  "name": "tree-sitter-keycook",
+  "version": "0.1.0",
+  "description": "keycook keymap DSL grammar for tree-sitter",
+  "main": "bindings/node",
+  "license": "MIT",
+  "tree-sitter": [
+    {
+      "scope": "source.keycook",
+      "file-types": ["kc"],
+      "highlights": "queries/highlights.scm"
+    }
+  ]
+}

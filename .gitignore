@@ -10,3 +10,7 @@ node/
 copilot/
 logs/
 .DS_Store
+
+# keycook build output
+tools/keycook/target/
+tools/keycook/zed-extension/target/

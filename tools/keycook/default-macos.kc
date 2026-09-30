@@ -1,0 +1,1222 @@
+// Base: Zed 1.21.0 default-macos.json in keycook form. Generated, complete, no imports.
+// nesting = &&, `>` headers are Zed's descendant operator, `key: action`, `prefix: { … }`, keys sharing an action share a line.
+// 934 bindings, 134 sections; 0 upstream-order fixes carried into child blocks.
+
+f4: debugger::Start
+home shift-pageup pageup cmd-up: menu::SelectFirst
+end shift-pagedown pagedown cmd-down: menu::SelectLast
+tab ctrl-n down: menu::SelectNext
+shift-tab ctrl-p up: menu::SelectPrevious
+enter: menu::Confirm
+ctrl-enter cmd-enter: menu::SecondaryConfirm
+cmd-escape ctrl-escape ctrl-c escape: menu::Cancel
+alt-shift-enter: menu::Restart
+cmd-shift-w: workspace::CloseWindow
+shift-escape: workspace::ToggleZoom
+cmd-o: workspace::Open
+cmd-= cmd-+: zed::IncreaseBufferFontSize(persist=false)
+cmd--: zed::DecreaseBufferFontSize(persist=false)
+cmd-0: zed::ResetBufferFontSize(persist=false)
+cmd-alt-,: zed::OpenSettingsFile
+cmd-q: zed::Quit
+cmd-h: zed::Hide
+alt-cmd-h: zed::HideOthers
+cmd-m: zed::Minimize
+ctrl-cmd-z: edit_prediction::RatePredictions
+ctrl-cmd-i: edit_prediction::ToggleMenu
+ctrl-cmd-l: lsp_tool::ToggleMenu
+ctrl-cmd-c: editor::DisplayCursorNames
+ctrl-cmd-s: workspace::ToggleWorktreeSecurity
+ctrl-alt-cmd-f: workspace::FollowNextCollaborator
+cmd-shift-c: collab_panel::ToggleFocus
+cmd-alt-i: dev::ToggleInspector
+ctrl-alt-shift-p: dev::ToggleFpsOverlay
+ctrl-alt-shift-o: dev::ResetFrameOverlayStats
+
+menu {   // #1
+  right: menu::SelectChild
+  left: menu::SelectParent
+}
+
+Editor {   // #2,#39,#52
+  escape: editor::Cancel
+  shift-backspace ctrl-h backspace: editor::Backspace
+  ctrl-d delete: editor::Delete
+  tab: editor::Tab
+  shift-tab: editor::Backtab
+  ctrl-t: editor::Transpose
+  ctrl-k: editor::KillRingCut
+  ctrl-y: editor::KillRingYank
+  cmd-backspace: editor::DeleteToBeginningOfLine
+  cmd-delete: editor::DeleteToEndOfLine
+  alt-backspace ctrl-w: editor::DeleteToPreviousWordStart(ignore_newlines=false, ignore_brackets=false)
+  alt-delete: editor::DeleteToNextWordEnd(ignore_newlines=false, ignore_brackets=false)
+  cmd-x: editor::Cut
+  cmd-c: editor::Copy
+  cmd-v: editor::Paste
+  cmd-z: editor::Undo
+  cmd-shift-z: editor::Redo
+  up ctrl-p: editor::MoveUp
+  ctrl-up: editor::MoveToStartOfParagraph
+  pageup: editor::MovePageUp
+  shift-pageup: editor::SelectPageUp
+  cmd-pageup: editor::PageUp
+  ctrl-pageup: editor::LineUp
+  down ctrl-n: editor::MoveDown
+  ctrl-down: editor::MoveToEndOfParagraph
+  pagedown: editor::MovePageDown
+  shift-pagedown: editor::SelectPageDown
+  cmd-pagedown: editor::PageDown
+  ctrl-pagedown: editor::LineDown
+  ctrl-b left: editor::MoveLeft
+  ctrl-f right: editor::MoveRight
+  ctrl-l: editor::ScrollCursorCenter
+  alt-left: editor::MoveToPreviousWordStart
+  alt-right: editor::MoveToNextWordEnd
+  cmd-left home: editor::MoveToBeginningOfLine(stop_at_soft_wraps, stop_at_indent)
+  ctrl-a: editor::MoveToBeginningOfLine(stop_at_soft_wraps=false, stop_at_indent)
+  cmd-right end: editor::MoveToEndOfLine(stop_at_soft_wraps)
+  ctrl-e: editor::MoveToEndOfLine(stop_at_soft_wraps=false)
+  cmd-up cmd-home: editor::MoveToBeginning
+  cmd-down cmd-end: editor::MoveToEnd
+  shift-up ctrl-shift-p: editor::SelectUp
+  shift-down ctrl-shift-n: editor::SelectDown
+  shift-left ctrl-shift-b: editor::SelectLeft
+  shift-right ctrl-shift-f: editor::SelectRight
+  alt-shift-left: editor::SelectToPreviousWordStart
+  alt-shift-right: editor::SelectToNextWordEnd
+  ctrl-shift-up: editor::SelectToStartOfParagraph
+  ctrl-shift-down: editor::SelectToEndOfParagraph
+  cmd-shift-up: editor::SelectToBeginning
+  cmd-shift-down: editor::SelectToEnd
+  cmd-a: editor::SelectAll
+  cmd-l: editor::SelectLine
+  cmd-shift-i: editor::Format
+  alt-shift-o: editor::OrganizeImports
+  cmd-shift-left shift-home ctrl-shift-a: editor::SelectToBeginningOfLine(stop_at_soft_wraps, stop_at_indent)
+  cmd-shift-right shift-end ctrl-shift-e: editor::SelectToEndOfLine(stop_at_soft_wraps)
+  ctrl-v: editor::MovePageDown(center_cursor)
+  ctrl-shift-v: editor::MovePageUp(center_cursor)
+  ctrl-cmd-space: editor::ShowCharacterPalette
+  cmd-;: editor::ToggleLineNumbers
+  cmd-': editor::ToggleSelectedDiffHunks
+  "cmd-\"": editor::ExpandAllDiffHunks
+  cmd-i: editor::ShowSignatureHelp
+  f9: editor::ToggleBreakpoint
+  shift-f9: editor::EditLogBreakpoint
+  ctrl-f12: editor::GoToDeclaration
+  alt-ctrl-f12: editor::GoToDeclarationSplit
+  ctrl-cmd-e: editor::ToggleEditPrediction
+  cmd-[: editor::Outdent
+  cmd-]: editor::Indent
+  cmd-ctrl-p: editor::AddSelectionAbove(skip_soft_wrap=false)
+  cmd-alt-up: editor::AddSelectionAbove(skip_soft_wrap)
+  cmd-ctrl-n: editor::AddSelectionBelow(skip_soft_wrap=false)
+  cmd-alt-down: editor::AddSelectionBelow(skip_soft_wrap)
+  cmd-shift-k: editor::DeleteLine
+  alt-up: editor::MoveLineUp
+  alt-down: editor::MoveLineDown
+  alt-shift-up: editor::DuplicateLineUp
+  alt-shift-down: editor::DuplicateLineDown
+  cmd-ctrl-left ctrl-shift-left: editor::SelectSmallerSyntaxNode
+  cmd-ctrl-right ctrl-shift-right: editor::SelectLargerSyntaxNode
+  cmd-ctrl-up: editor::SelectPreviousSyntaxNode
+  cmd-ctrl-down: editor::SelectNextSyntaxNode
+  cmd-d: editor::SelectNext(replace_newest=false)
+  cmd-shift-l cmd-f2: editor::SelectAllMatches
+  ctrl-cmd-d: editor::SelectPrevious(replace_newest=false)
+  cmd-/: editor::ToggleComments(advance_downwards=false, comment_empty_lines)
+  shift-alt-a: editor::ToggleBlockComments
+  f8: editor::GoToDiagnostic(severity={"min": "hint", "max": "error"})
+  shift-f8: editor::GoToPreviousDiagnostic(severity={"min": "hint", "max": "error"})
+  f2: editor::Rename
+  f12: editor::GoToDefinition
+  alt-f12: editor::GoToDefinitionSplit
+  cmd-f12: editor::GoToTypeDefinition
+  shift-f12: editor::GoToImplementation
+  alt-cmd-f12: editor::GoToTypeDefinitionSplit
+  alt-shift-f12: editor::FindAllReferences
+  cmd-| ctrl-m: editor::MoveToEnclosingBracket
+  alt-cmd-[: editor::Fold
+  alt-cmd-]: editor::UnfoldLines
+  ctrl-space: editor::ShowCompletions
+  ctrl-shift-space: editor::ShowWordCompletions
+  cmd-.: editor::ToggleCodeActions
+  cmd-\: pane::SplitRight
+  cmd-u: editor::UndoSelection
+  cmd-shift-u: editor::RedoSelection
+  ctrl-j: editor::JoinLines
+  ctrl-alt-backspace ctrl-alt-h: editor::DeleteToPreviousSubwordStart
+  ctrl-alt-delete ctrl-alt-d: editor::DeleteToNextSubwordEnd
+  ctrl-alt-left ctrl-alt-b: editor::MoveToPreviousSubwordStart
+  ctrl-alt-right ctrl-alt-f: editor::MoveToNextSubwordEnd
+  ctrl-alt-shift-left ctrl-alt-shift-b: editor::SelectToPreviousSubwordStart
+  ctrl-alt-shift-right ctrl-alt-shift-f: editor::SelectToNextSubwordEnd
+  cmd-k: {
+    cmd-q q: editor::Rewrap
+    cmd-d: editor::SelectNext(replace_newest)
+    ctrl-cmd-d: editor::SelectPrevious(replace_newest)
+    cmd-i: editor::Hover
+    cmd-b: editor::BlameHover
+    cmd-/: editor::ToggleBlockComments
+    cmd-h: call_hierarchy::ShowIncomingCalls
+    cmd-l: editor::ToggleFold
+    cmd-[: editor::FoldRecursive
+    cmd-]: editor::UnfoldRecursive
+    cmd-1: editor::FoldAtLevel_1
+    cmd-2: editor::FoldAtLevel_2
+    cmd-3: editor::FoldAtLevel_3
+    cmd-4: editor::FoldAtLevel_4
+    cmd-5: editor::FoldAtLevel_5
+    cmd-6: editor::FoldAtLevel_6
+    cmd-7: editor::FoldAtLevel_7
+    cmd-8: editor::FoldAtLevel_8
+    cmd-9: editor::FoldAtLevel_9
+    cmd-0: editor::FoldAll
+    cmd-j: editor::UnfoldAll
+    r: editor::RevealInFileManager
+    p: editor::CopyPath
+  }
+  cmd-alt-g: {
+    b: git::Blame
+    m: git::OpenModifiedFiles
+    r: git::ReviewDiff
+  }
+
+  mode == full {   // #3,#43
+    shift-enter enter: editor::Newline
+    cmd-enter: editor::NewlineBelow
+    cmd-shift-enter: editor::NewlineAbove
+    "cmd-k z": editor::ToggleSoftWrap
+    cmd-f: buffer_search::Deploy
+    cmd-alt-l: buffer_search::Deploy(selection_search_enabled)
+    cmd-e: buffer_search::UseSelectionForFind
+    cmd->: agent::AddSelectionToThread
+    cmd-alt-e: editor::SelectEnclosingSymbol
+    alt-enter: editor::OpenSelectionsInMultibuffer
+    alt-cmd-f: text_finder::Toggle
+    cmd-shift-o: outline::Toggle
+    ctrl-g: go_to_line::Toggle
+    cmd-shift-backspace: editor::GoToPreviousChange
+    cmd-shift-alt-backspace: editor::GoToNextChange
+
+    edit_prediction {   // #5
+      alt-tab: editor::NextEditPrediction
+      alt-shift-tab: editor::PreviousEditPrediction
+    }
+  }
+
+  multibuffer {   // #4
+    cmd-up: editor::MoveToStartOfExcerpt
+    cmd-down: editor::MoveToStartOfNextExcerpt
+    cmd-shift-up: editor::SelectToStartOfExcerpt
+    cmd-shift-down: editor::SelectToStartOfNextExcerpt
+  }
+
+  !edit_prediction {   // #6
+    alt-tab: editor::ShowEditPrediction
+  }
+
+  mode == auto_height {   // #7
+    ctrl-enter shift-enter: editor::Newline
+    ctrl-shift-enter: editor::NewlineBelow
+  }
+
+  jupyter {   // #9
+    ctrl-shift-enter: repl::Run
+    ctrl-alt-enter: repl::RunInPlace
+  }
+
+  !agent_diff & !AgentPanel {   // #10
+    cmd-alt-z: git::Restore
+    cmd-alt-y: git::ToggleStaged
+    cmd-y: git::StageAndNext
+    cmd-shift-y: git::UnstageAndNext
+  }
+
+  editor_agent_diff {   // #12
+    cmd-y cmd-alt-y: agent::Keep
+    cmd-alt-z: agent::Reject
+    shift-alt-y: agent::KeepAll
+    shift-alt-z: agent::RejectAll
+    shift-ctrl-r: agent::OpenAgentDiff
+  }
+
+  extension == md {   // #40
+    "cmd-k v": markdown::OpenPreviewToTheSide
+    cmd-shift-v: markdown::OpenPreview
+  }
+
+  extension == svg {   // #41
+    "cmd-k v": svg::OpenPreviewToTheSide
+    cmd-shift-v: svg::OpenPreview
+  }
+
+  (extension == csv | extension == tsv | extension == ssv | extension == psv) {   // #42
+    "cmd-k v": tabular_data::OpenPreviewToTheSide
+    cmd-shift-v: tabular_data::OpenPreview
+  }
+
+  renaming {   // #54
+    enter: editor::ConfirmRename
+  }
+
+  inline_input {   // #55
+    enter: menu::Confirm
+  }
+
+  showing_completions {   // #56
+    enter: editor::ConfirmCompletion
+    shift-enter: editor::ConfirmCompletionReplace
+    tab: editor::ComposeCompletion
+  }
+
+  in_snippet {
+
+    has_next_tabstop & !showing_completions {   // #57
+      tab: editor::NextSnippetTabstop
+    }
+
+    has_previous_tabstop & !showing_completions {   // #58
+      shift-tab: editor::PreviousSnippetTabstop
+    }
+  }
+
+  edit_prediction {   // #59
+    alt-tab: editor::AcceptEditPrediction
+    ctrl-cmd-right: editor::AcceptNextWordEditPrediction
+    ctrl-cmd-down: editor::AcceptNextLineEditPrediction
+
+    edit_prediction_mode == eager & !showing_completions {   // #60
+      tab: editor::AcceptEditPrediction
+    }
+  }
+
+  showing_code_actions {   // #61
+    enter: editor::ConfirmCodeAction
+  }
+
+  (showing_code_actions | showing_completions) {   // #62
+    up ctrl-p: editor::ContextMenuPrevious
+    down ctrl-n: editor::ContextMenuNext
+    pageup: editor::ContextMenuFirst
+    pagedown: editor::ContextMenuLast
+  }
+
+  showing_signature_help & !showing_completions {   // #63
+    up: editor::SignatureHelpPrevious
+    down: editor::SignatureHelpNext
+  }
+}
+
+Markdown {   // #8
+  cmd-c: markdown::Copy
+}
+
+AgentDiff {   // #11
+  cmd-y cmd-alt-y: agent::Keep
+  cmd-alt-z: agent::Reject
+  shift-alt-y: agent::KeepAll
+  shift-alt-z: agent::RejectAll
+}
+
+AgentPanel {   // #13
+  cmd-n: agent::NewThread
+  cmd-alt-c: agent::OpenSettings
+  cmd-alt-m: agent::ToggleOptionsMenu
+  cmd-alt-shift-n: agent::ToggleNewThreadMenu
+  cmd-shift-e: project_panel::ToggleFocus
+  ctrl-tab: agents_sidebar::ToggleThreadSwitcher
+  ctrl-shift-tab: agents_sidebar::ToggleThreadSwitcher(select_last)
+}
+
+AgentFeedbackMessageEditor > Editor {   // #14
+  escape: menu::Cancel
+  enter: menu::Confirm
+  alt-enter: editor::Newline
+}
+
+AcpThread > ModeSelector {   // #15
+  cmd-enter: menu::Confirm
+}
+
+AcpThread {   // #16
+  cmd-n: agent::NewThread
+  ctrl--: pane::GoBack
+  cmd-alt-l: agent::ManageSkills
+  cmd-alt-p: agent::ManageProfiles
+  cmd-i: agent::ToggleProfileSelector
+  shift-tab: agent::CycleModeSelector
+  cmd-alt-/: agent::ToggleModelSelector
+  alt-tab: agent::CycleFavoriteModels
+  shift-alt-escape: agent::ExpandMessageEditor
+  cmd->: agent::AddSelectionToThread
+  cmd-alt-y: agent::AllowAlways
+  cmd-y: agent::AllowOnce
+  cmd-alt-a: agent::OpenPermissionDropdown
+  cmd-alt-z: agent::RejectOnce
+  pageup ctrl-pageup: agent::ScrollOutputPageUp
+  pagedown ctrl-pagedown: agent::ScrollOutputPageDown
+  home ctrl-home: agent::ScrollOutputToTop
+  end ctrl-end: agent::ScrollOutputToBottom
+  up ctrl-alt-up: agent::ScrollOutputLineUp
+  down ctrl-alt-down: agent::ScrollOutputLineDown
+  shift-pageup ctrl-alt-pageup: agent::ScrollOutputToPreviousMessage
+  shift-pagedown ctrl-alt-pagedown: agent::ScrollOutputToNextMessage
+  cmd-f: agent::ToggleSearch
+  cmd-g: agent::SelectNextThreadMatch
+  cmd-shift-g: agent::SelectPreviousThreadMatch
+  alt-cmd-c: search::ToggleCaseSensitive
+  alt-cmd-w: search::ToggleWholeWord
+  alt-cmd-x: search::ToggleRegex
+}
+
+AcpThreadSearchBar {   // #17
+  escape: agent::DismissThreadSearch
+  enter: agent::SelectNextThreadMatch
+  shift-enter: agent::SelectPreviousThreadMatch
+  cmd-f: search::FocusSearch
+}
+
+AcpThreadSearchBar > Editor {   // #18
+  shift-enter: agent::SelectPreviousThreadMatch
+}
+
+AcpThread > Editor {   // #19
+  cmd-f: agent::ToggleSearch
+  ctrl-pageup: agent::ScrollOutputPageUp
+  ctrl-pagedown: agent::ScrollOutputPageDown
+  ctrl-home: agent::ScrollOutputToTop
+  ctrl-end: agent::ScrollOutputToBottom
+  ctrl-alt-up: agent::ScrollOutputLineUp
+  ctrl-alt-down: agent::ScrollOutputLineDown
+  ctrl-alt-pageup: agent::ScrollOutputToPreviousMessage
+  ctrl-alt-pagedown: agent::ScrollOutputToNextMessage
+  shift-ctrl-r: agent::OpenAgentDiff
+  shift-ctrl-d: git::Diff
+  shift-alt-y: agent::KeepAll
+  shift-alt-z: agent::RejectAll
+  shift-alt-u: agent::UndoLastReject
+  cmd-enter: agent::ChatWithFollow
+  cmd-shift-enter: agent::SendImmediately
+  cmd-shift-alt-enter: agent::SendNextQueuedMessage
+  cmd-shift-backspace: agent::RemoveFirstQueuedMessage
+  cmd-ctrl-e: agent::EditFirstQueuedMessage
+  cmd-ctrl-s: agent::ToggleSteerFirstQueuedMessage
+  cmd-alt-backspace: agent::ClearMessageQueue
+  cmd-shift-v: agent::PasteRaw
+  cmd-i: agent::ToggleProfileSelector
+  shift-tab: agent::CycleModeSelector
+  alt-tab: agent::CycleFavoriteModels
+  ctrl-;: agent::OpenAddContextMenu
+  cmd-alt-k: agent::ToggleThinkingMode
+  cmd-alt-': agent::ToggleThinkingEffortMenu
+  ctrl-': agent::CycleThinkingEffort
+  cmd-alt-.: agent::ToggleFastMode
+
+  start_of_input {   // #20
+    pageup ctrl-pageup: agent::ScrollOutputPageUp
+    ctrl-home: agent::ScrollOutputToTop
+  }
+
+  end_of_input {   // #21
+    pagedown ctrl-pagedown: agent::ScrollOutputPageDown
+    ctrl-end: agent::ScrollOutputToBottom
+  }
+
+  mode == full {   // #22
+    alt-enter: editor::OpenExcerpts
+  }
+
+  !use_modifier_to_send {   // #23
+    enter: agent::Chat
+  }
+
+  use_modifier_to_send {   // #24
+    cmd-enter: agent::Chat
+    enter: editor::Newline
+  }
+}
+
+ThreadHistory {   // #25
+  ctrl--: pane::GoBack
+}
+
+ThreadHistory > Editor {   // #26
+  shift-backspace: agent::RemoveSelectedThread
+}
+
+ThreadsArchiveView {   // #27
+  backspace: agent::ArchiveSelectedThread
+}
+
+BufferSearchBar {   // #28
+  escape: buffer_search::Dismiss
+  tab: buffer_search::FocusEditor
+  enter: search::SelectNextMatch
+  shift-enter: search::SelectPreviousMatch
+  cmd-shift-enter: editor::ToggleFoldAll
+  alt-enter: search::SelectAllMatches
+  cmd-f: search::FocusSearch
+  cmd-alt-l: search::ToggleSelection
+  cmd-shift-o: outline::Toggle
+  alt-cmd-f: text_finder::Toggle
+}
+
+BufferSearchBar & in_replace > Editor {   // #29
+  enter: search::ReplaceNext
+  cmd-enter: search::ReplaceAll
+}
+
+BufferSearchBar & !in_replace > Editor {   // #30,#31
+  ctrl-enter: editor::Newline
+  shift-enter: search::SelectPreviousMatch
+  up: search::PreviousHistoryQuery
+  down: search::NextHistoryQuery
+}
+
+BufferSearchBar | ProjectSearchBar {   // #32
+  ctrl-enter: editor::Newline
+}
+
+ProjectSearchBar {   // #33
+  escape: project_search::ToggleFocus
+  cmd-shift-j: project_search::ToggleFilters
+  cmd-shift-enter: project_search::ToggleAllSearchResults
+  cmd-shift-f: search::FocusSearch
+  cmd-shift-h: search::ToggleReplace
+  alt-cmd-g alt-cmd-x: search::ToggleRegex
+  alt-cmd-f: project_search::OpenTextFinder
+
+  !in_replace {   // #68
+    cmd-enter: project_search::SearchInNew
+  }
+}
+
+ProjectSearchBar > Editor {   // #34
+  up: search::PreviousHistoryQuery
+  down: search::NextHistoryQuery
+}
+
+ProjectSearchBar & in_replace > Editor {   // #35
+  enter: search::ReplaceNext
+  cmd-enter: search::ReplaceAll
+}
+
+ProjectSearchBar & !in_replace > Editor {   // #36
+  ctrl-enter: editor::Newline
+}
+
+ProjectSearchView {   // #37
+  escape: project_search::ToggleFocus
+  cmd-shift-j: project_search::ToggleFilters
+  cmd-shift-enter: project_search::ToggleAllSearchResults
+  cmd-shift-h: search::ToggleReplace
+  alt-cmd-g alt-cmd-x: search::ToggleRegex
+  alt-cmd-f: project_search::OpenTextFinder
+}
+
+Pane {   // #38,#44,#53
+  alt-cmd-left "cmd-{": pane::ActivatePreviousItem
+  alt-cmd-right "cmd-}": pane::ActivateNextItem
+  ctrl-shift-pageup: pane::SwapItemLeft
+  ctrl-shift-pagedown: pane::SwapItemRight
+  cmd-w: pane::CloseActiveItem(close_pinned=false)
+  alt-cmd-t: pane::CloseOtherItems(close_pinned=false)
+  ctrl-alt-cmd-w: workspace::CloseInactiveTabsAndPanes
+  cmd-f: project_search::ToggleFocus
+  cmd-g: search::SelectNextMatch
+  cmd-shift-g: search::SelectPreviousMatch
+  cmd-shift-h: search::ToggleReplace
+  cmd-alt-l: search::ToggleSelection
+  alt-enter: search::SelectAllMatches
+  alt-cmd-c: search::ToggleCaseSensitive
+  alt-cmd-w: search::ToggleWholeWord
+  alt-cmd-x: search::ToggleRegex
+  ctrl-1: pane::ActivateItem(0)
+  ctrl-2: pane::ActivateItem(1)
+  ctrl-3: pane::ActivateItem(2)
+  ctrl-4: pane::ActivateItem(3)
+  ctrl-5: pane::ActivateItem(4)
+  ctrl-6: pane::ActivateItem(5)
+  ctrl-7: pane::ActivateItem(6)
+  ctrl-8: pane::ActivateItem(7)
+  ctrl-9: pane::ActivateItem(8)
+  ctrl-0: pane::ActivateLastItem
+  ctrl--: pane::GoBack
+  ctrl-_: pane::GoForward
+  cmd-shift-f: pane::DeploySearch
+  cmd-k: {
+    e: pane::CloseItemsToTheLeft(close_pinned=false)
+    t: pane::CloseItemsToTheRight(close_pinned=false)
+    u: pane::CloseCleanItems(close_pinned=false)
+    w: pane::CloseAllItems(close_pinned=false)
+    cmd-w: workspace::CloseAllItemsAndPanes
+    shift-enter: pane::TogglePinTab
+    up: pane::SplitUp
+    down: pane::SplitDown
+    left: pane::SplitLeft
+    right: pane::SplitRight
+  }
+}
+
+Workspace {   // #45
+  f6 cmd-f6: workspace::FocusNextPart
+  shift-f6: workspace::FocusPreviousPart
+  fn-f ctrl-cmd-f: zed::ToggleFullScreen
+  alt-cmd-o ctrl-r: projects::OpenRecent
+  ctrl-cmd-o: projects::OpenRemote(from_existing_connection=false)
+  ctrl-cmd-shift-o: projects::OpenRemote(from_existing_connection)
+  cmd-ctrl-b: branches::OpenRecent
+  cmd-ctrl-w: git::Worktree
+  ctrl-~: workspace::NewTerminal
+  cmd-s: workspace::Save
+  alt-shift-enter: toast::RunAction
+  cmd-shift-s: workspace::SaveAs
+  cmd-shift-n: workspace::NewWindow
+  ctrl-`: terminal_panel::Toggle
+  cmd-1: workspace::ActivatePane(0)
+  cmd-2: workspace::ActivatePane(1)
+  cmd-3: workspace::ActivatePane(2)
+  cmd-4: workspace::ActivatePane(3)
+  cmd-5: workspace::ActivatePane(4)
+  cmd-6: workspace::ActivatePane(5)
+  cmd-7: workspace::ActivatePane(6)
+  cmd-8: workspace::ActivatePane(7)
+  cmd-9: workspace::ActivatePane(8)
+  cmd-b: workspace::ToggleLeftDock
+  cmd-alt-b cmd-r: workspace::ToggleRightDock
+  cmd-j: workspace::ToggleBottomDock
+  cmd-alt-j: multi_workspace::ToggleWorkspaceSidebar
+  cmd-alt-;: multi_workspace::FocusWorkspaceSidebar
+  alt-cmd-y: workspace::ToggleAllDocks
+  ctrl-alt-0: workspace::ResetActiveDockSize
+  ctrl-alt--: workspace::DecreaseActiveDockSize(px=0)
+  ctrl-alt-=: workspace::IncreaseActiveDockSize(px=0)
+  ctrl-alt-): workspace::ResetOpenDocksSize
+  ctrl-alt-_: workspace::DecreaseOpenDocksSize(px=0)
+  ctrl-alt-+: workspace::IncreaseOpenDocksSize(px=0)
+  cmd-shift-f: pane::DeploySearch
+  cmd-shift-h: pane::DeploySearch(replace_enabled)
+  cmd-shift-t: pane::ReopenClosedItem
+  ctrl-alt-cmd-p: settings_profile_selector::Toggle
+  cmd-t: project_symbols::Toggle
+  cmd-p: file_finder::Toggle
+  ctrl-shift-tab: tab_switcher::Toggle(select_last)
+  ctrl-tab: tab_switcher::Toggle
+  cmd-shift-p: command_palette::Toggle
+  cmd-shift-m: diagnostics::Deploy
+  cmd-shift-e: project_panel::ToggleFocus
+  cmd-shift-b: outline_panel::ToggleFocus
+  ctrl-shift-g: git_panel::ToggleFocus
+  cmd-shift-d: debug_panel::ToggleFocus
+  cmd-?: agent::ToggleFocus
+  cmd-alt-s: workspace::SaveAll
+  escape: workspace::Unfollow
+  cmd-shift-x: zed::Extensions
+  f5: debugger::Rerun
+  cmd-w: workspace::CloseActiveDock
+  cmd-k: {
+    s: workspace::SaveWithoutFormat
+    cmd-p: workspace::ReopenLastPicker
+    cmd-s: zed::OpenKeymap
+    cmd-t: theme_selector::Toggle
+    cmd-shift-t: theme::ToggleMode
+    n: encoding_selector::Toggle
+    m: language_selector::Toggle
+    cmd-m: toolchain::AddToolchain
+    cmd-left: workspace::ActivatePaneLeft
+    cmd-right: workspace::ActivatePaneRight
+    cmd-up: workspace::ActivatePaneUp
+    cmd-down: workspace::ActivatePaneDown
+    shift-left: workspace::SwapPaneLeft
+    shift-right: workspace::SwapPaneRight
+    shift-up: workspace::SwapPaneUp
+    shift-down: workspace::SwapPaneDown
+  }
+
+  !Terminal {   // #46
+    cmd-n: workspace::NewFile
+    cmd-shift-r: task::Spawn
+    cmd-alt-r: task::Rerun(reevaluate_context=false)
+    ctrl-alt-shift-r: task::Spawn(reveal_target="center")
+  }
+
+  debugger_running {   // #50
+    f5: null
+  }
+
+  debugger_stopped {   // #51
+    f5: debugger::Continue
+    f7 f10: debugger::StepOver
+    f11 ctrl-f11: debugger::StepInto
+    shift-f11: debugger::StepOut
+  }
+
+  debugger_session {   // #81
+    f6: debugger::Pause
+    shift-f5: debugger::Stop
+    shift-cmd-f5: debugger::RerunSession
+  }
+}
+
+ThreadsSidebar {   // #47
+  cmd-n: agents_sidebar::NewThreadInGroup
+  left: menu::SelectParent
+  right: menu::SelectChild
+  enter: menu::Confirm
+  cmd-f: agents_sidebar::FocusSidebarFilter
+  cmd-g: agents_sidebar::ToggleThreadHistory
+  shift-backspace: agent::ArchiveSelectedThread
+  cmd-shift-backspace: agent::RemoveSelectedThread
+  ctrl-tab: agents_sidebar::ToggleThreadSwitcher
+  ctrl-shift-tab: agents_sidebar::ToggleThreadSwitcher(select_last)
+
+  not_searching {   // #48
+    space: menu::Confirm
+    shift-r: agent::RenameSelectedThread
+  }
+}
+
+ThreadSwitcher {   // #49
+  ctrl-tab: agents_sidebar::ToggleThreadSwitcher
+  ctrl-shift-tab: agents_sidebar::ToggleThreadSwitcher(select_last)
+}
+
+!AcpThread > Editor & mode == full {   // #65
+  alt-enter: editor::OpenExcerpts
+  shift-enter: editor::ExpandExcerpts
+  cmd-alt-enter: editor::OpenExcerptsSplit
+  cmd-shift-e: pane::RevealInProjectPanel
+  cmd-f8: editor::GoToHunk
+  cmd-shift-f8: editor::GoToPreviousHunk
+  ctrl-enter: assistant::InlineAssist
+  "ctrl-:": editor::ToggleInlayHints
+}
+
+InlineAssistant > Editor {   // #66
+  cmd-alt-/: agent::ToggleModelSelector
+  alt-tab: agent::CycleFavoriteModels
+  ctrl-[: agent::CyclePreviousInlineAssist
+  ctrl-]: agent::CycleNextInlineAssist
+  cmd-shift-enter: inline_assistant::ThumbsUpResult
+  cmd-shift-backspace: inline_assistant::ThumbsDownResult
+}
+
+Prompt {   // #67
+  left h: menu::SelectPrevious
+  right l: menu::SelectNext
+}
+
+OutlinePanel & not_editing {   // #69
+  escape: menu::Cancel
+  left: outline_panel::CollapseSelectedEntry
+  right: outline_panel::ExpandSelectedEntry
+  cmd-alt-c: workspace::CopyPath
+  alt-cmd-shift-c: workspace::CopyRelativePath
+  alt-cmd-r: outline_panel::RevealInFileManager
+  space: outline_panel::OpenSelectedEntry
+  shift-down: menu::SelectNext
+  shift-up: menu::SelectPrevious
+  alt-enter: editor::OpenExcerpts
+  cmd-alt-enter: editor::OpenExcerptsSplit
+}
+
+ProjectPanel {   // #70
+  left: project_panel::CollapseSelectedEntry
+  cmd-left: project_panel::CollapseAllEntries
+  right: project_panel::ExpandSelectedEntry
+  cmd-right: project_panel::ExpandAllEntries
+  cmd-n: project_panel::NewFile
+  cmd-d: project_panel::Duplicate
+  alt-cmd-n: project_panel::NewDirectory
+  cmd-x: project_panel::Cut
+  cmd-c: project_panel::Copy
+  cmd-v: project_panel::Paste
+  cmd-alt-c: workspace::CopyPath
+  alt-cmd-shift-c: workspace::CopyRelativePath
+  cmd-z: project_panel::Undo
+  cmd-shift-z: project_panel::Redo
+  enter f2: project_panel::Rename
+  backspace delete: project_panel::Trash(skip_prompt=false)
+  cmd-backspace: project_panel::Trash(skip_prompt)
+  cmd-delete cmd-alt-backspace: project_panel::Delete(skip_prompt=false)
+  alt-cmd-r: project_panel::RevealInFileManager
+  ctrl-shift-enter: workspace::OpenWithSystem
+  alt-d: project_panel::CompareMarkedFiles
+  cmd-alt-shift-f: project_panel::NewSearchInDirectory
+  shift-f10: project_panel::OpenContextMenu
+  shift-down: menu::SelectNext
+  shift-up: menu::SelectPrevious
+  escape: menu::Cancel
+
+  not_editing {   // #71
+    space: project_panel::Open
+  }
+}
+
+VariableList {   // #72
+  left: variable_list::CollapseSelectedEntry
+  right: variable_list::ExpandSelectedEntry
+  enter: variable_list::EditVariable
+  cmd-c: variable_list::CopyVariableValue
+  cmd-alt-c: variable_list::CopyVariableName
+  delete backspace: variable_list::RemoveWatch
+  alt-enter: variable_list::AddWatch
+}
+
+GitPanel {   // #73,#79
+  cmd-1: git_panel::ActivateChangesTab
+  cmd-2: git_panel::ActivateHistoryTab
+  cmd-ctrl-y: git::StageAll
+  cmd-ctrl-shift-y: git::UnstageAll
+  cmd-enter: git::Commit
+  cmd-shift-enter: git::Amend
+  ctrl-g: {
+    ctrl-g: git::Fetch
+    up: git::Push
+    down: git::Pull
+    shift-down: git::PullRebase
+    shift-up: git::ForcePush
+    d: git::Diff
+    backspace: git::RestoreTrackedFiles
+    shift-backspace: git::TrashUntrackedFiles
+  }
+
+  (ChangesList | HistoryList) & !GitBranchSelector & !GitRepositorySelector {   // #74
+    up shift-up: menu::SelectPrevious
+    down shift-down: menu::SelectNext
+    enter: menu::Confirm
+    escape: menu::Cancel
+  }
+
+  ChangesList & !GitBranchSelector & !GitRepositorySelector {   // #75
+    up: git_panel::PreviousEntry
+    down: git_panel::NextEntry
+    cmd-up: git_panel::FirstEntry
+    cmd-down: git_panel::LastEntry
+    left: git_panel::CollapseSelectedEntry
+    right: git_panel::ExpandSelectedEntry
+    cmd-alt-y space: git::ToggleStaged
+    shift-space: git::StageRange
+    cmd-y: git::StageFile
+    cmd-shift-y: git::UnstageFile
+    cmd-alt-c: workspace::CopyPath
+    alt-cmd-shift-c: workspace::CopyRelativePath
+    alt-down tab shift-tab: git_panel::FocusEditor
+    backspace delete: git::RestoreFile(skip_prompt=false)
+    cmd-backspace cmd-delete: git::RestoreFile(skip_prompt)
+  }
+
+  CommitEditor {   // #76
+    escape: git::Cancel
+  }
+}
+
+GitDiff > Editor {   // #77
+  cmd-enter: git::Commit
+  cmd-shift-enter: git::Amend
+  cmd-ctrl-y: git::StageAll
+  cmd-ctrl-shift-y: git::UnstageAll
+  cmd-alt-z: git::RestoreAndNext
+}
+
+CommitEditor > Editor {   // #78
+  enter: editor::Newline
+  cmd-enter: git::Commit
+  cmd-shift-enter: git::Amend
+  tab shift-tab alt-up: git_panel::FocusChanges
+  shift-escape: git::ExpandCommitEditor
+  alt-shift-escape: git::ToggleFillCommitEditor
+  alt-tab: git::GenerateCommitMessage
+}
+
+GitCommit > Editor & mode == auto_height {   // #80
+  enter: editor::Newline
+  escape: menu::Cancel
+  cmd-enter: git::Commit
+  cmd-shift-enter: git::Amend
+  alt-tab: git::GenerateCommitMessage
+}
+
+DebugPanel {   // #82
+  cmd-t: debugger::ToggleThreadPicker
+  cmd-i: debugger::ToggleSessionPicker
+  shift-alt-escape: debugger::ToggleExpandItem
+}
+
+BreakpointList {   // #83
+  space: debugger::ToggleEnableBreakpoint
+  backspace: debugger::UnsetBreakpoint
+  left: debugger::PreviousBreakpointProperty
+  right: debugger::NextBreakpointProperty
+}
+
+CollabPanel {   // #85
+  alt-up: collab_panel::MoveChannelUp
+  alt-down: collab_panel::MoveChannelDown
+  alt-enter: collab_panel::OpenSelectedChannelNotes
+  shift-enter: collab_panel::ToggleSelectedChannelFavorite
+
+  not_editing {   // #84
+    ctrl-backspace: collab_panel::Remove
+    space: menu::Confirm
+  }
+}
+
+(CollabPanel & editing) > Editor {   // #86
+  space: collab_panel::InsertSpace
+}
+
+ChannelModal {   // #87
+  tab: channel_modal::ToggleMode
+}
+
+CallHierarchyPicker > Picker > Editor {   // #88
+  cmd-k: {
+    cmd-h: call_hierarchy::ToggleDirection
+    right: menu::SelectChild
+    left: menu::SelectParent
+  }
+}
+
+Picker > Editor {   // #89
+  escape: menu::Cancel
+  up: menu::SelectPrevious
+  down: menu::SelectNext
+  tab: picker::ConfirmCompletion
+  alt-enter: picker::ConfirmInput(secondary=false)
+  cmd-alt-enter: picker::ConfirmInput(secondary)
+}
+
+LspCommandSelector > Picker > Editor {   // #90
+  tab: lsp_command_selector::ToggleArgumentsFocus
+}
+
+ChannelModal > Picker > Editor {   // #91
+  tab: channel_modal::ToggleMode
+}
+
+ToolchainSelector {   // #92
+  cmd-shift-a: toolchain::AddToolchain
+}
+
+FileFinder | (FileFinder > Picker > Editor) {   // #93
+  cmd-shift-i: search::ToggleIncludeIgnored
+}
+
+CommandPalette | (CommandPalette > Picker > Editor) {   // #94
+  shift-backspace: command_palette::RemoveSelected
+}
+
+RecentProjects | (RecentProjects > Picker > Editor) {   // #95
+  cmd-k: recent_projects::ToggleActionsMenu
+  cmd-shift-a: workspace::AddFolderToProject
+  shift-backspace: recent_projects::RemoveSelected
+  cmd-shift-enter: recent_projects::AddToWorkspace
+}
+
+TabSwitcher {   // #96
+  ctrl-shift-tab ctrl-up: menu::SelectPrevious
+  ctrl-down: menu::SelectNext
+  ctrl-backspace: tab_switcher::CloseSelectedItem
+}
+
+StashList | (StashList > Picker > Editor) {   // #97
+  ctrl-shift-backspace: stash_picker::DropStashItem
+  ctrl-shift-v: stash_picker::ShowStashItem
+}
+
+Terminal {   // #98
+  ctrl-cmd-space: terminal::ShowCharacterPalette
+  cmd-c: terminal::Copy
+  cmd-v: terminal::Paste
+  ctrl-cmd-v: terminal::PasteText
+  cmd-f: buffer_search::Deploy
+  cmd-a: editor::SelectAll
+  cmd-k: terminal::Clear
+  cmd-n: workspace::NewTerminal
+  ctrl-enter: assistant::InlineAssist
+  ctrl-_: null
+  cmd-backspace: terminal::SendKeystroke("ctrl-u")
+  alt-delete: terminal::SendText("\u001bd")
+  cmd-delete: terminal::SendKeystroke("ctrl-k")
+  cmd-right: terminal::SendKeystroke("ctrl-e")
+  cmd-left: terminal::SendKeystroke("ctrl-a")
+  alt-left alt-b: terminal::SendText("\u001bb")
+  alt-right alt-f: terminal::SendText("\u001bf")
+  ctrl-delete: terminal::SendText("\u001b[3;5~")
+  up: terminal::SendKeystroke("up")
+  pageup: terminal::SendKeystroke("pageup")
+  down: terminal::SendKeystroke("down")
+  pagedown: terminal::SendKeystroke("pagedown")
+  escape: terminal::SendKeystroke("escape")
+  enter: terminal::SendKeystroke("enter")
+  ctrl-c: terminal::SendKeystroke("ctrl-c")
+  ctrl-r: terminal::SendKeystroke("ctrl-r")
+  ctrl-backspace: terminal::SendKeystroke("ctrl-w")
+  shift-pageup cmd-up: terminal::ScrollPageUp
+  shift-pagedown cmd-down: terminal::ScrollPageDown
+  shift-up: terminal::ScrollLineUp
+  shift-down: terminal::ScrollLineDown
+  shift-home cmd-home: terminal::ScrollToTop
+  shift-end cmd-end: terminal::ScrollToBottom
+  ctrl-shift-space: terminal::ToggleViMode
+  ctrl-alt-up: pane::SplitUp
+  ctrl-alt-down: pane::SplitDown
+  ctrl-alt-left: pane::SplitLeft
+  ctrl-alt-right cmd-d: pane::SplitRight
+  cmd-alt-r: terminal::RerunTask
+  cmd->: agent::AddSelectionToThread
+}
+
+AgentPanel > Terminal {   // #99
+  cmd-f: agent::ToggleSearch
+  cmd-n: agent::NewThread
+}
+
+RatePredictionsModal {   // #100
+  cmd-shift-enter: zeta::ThumbsUpActivePrediction
+  cmd-shift-backspace: zeta::ThumbsDownActivePrediction
+  shift-down: zeta::NextEdit
+  shift-up: zeta::PreviousEdit
+  right: zeta::PreviewPrediction
+}
+
+RatePredictionsModal > Editor {   // #101
+  escape: zeta::FocusPredictions
+  cmd-shift-enter: zeta::ThumbsUpActivePrediction
+  cmd-shift-backspace: zeta::ThumbsDownActivePrediction
+}
+
+ZedPredictModal {   // #102
+  escape: menu::Cancel
+}
+
+ConfigureContextServerModal > Editor {   // #103
+  escape: menu::Cancel
+  enter: editor::Newline
+  cmd-enter: menu::Confirm
+}
+
+OnboardingAiConfigurationModal {   // #104
+  escape: menu::Cancel
+}
+
+Diagnostics {   // #105
+  ctrl-r: diagnostics::ToggleDiagnosticsRefresh
+}
+
+DebugConsole > Editor {   // #106
+  enter: menu::Confirm
+  alt-enter: console::WatchExpression
+}
+
+RunModal {   // #107,#124
+  ctrl-tab: pane::ActivateNextItem
+  ctrl-shift-tab: pane::ActivatePreviousItem
+  cmd-1: new_process_modal::ActivateTaskTab
+  cmd-2: new_process_modal::ActivateDebugTab
+  cmd-3: new_process_modal::ActivateAttachTab
+  cmd-4: new_process_modal::ActivateLaunchTab
+}
+
+MarkdownPreview {   // #108
+  pageup: markdown::ScrollPageUp
+  pagedown: markdown::ScrollPageDown
+  up: markdown::ScrollUp
+  down: markdown::ScrollDown
+  alt-up: markdown::ScrollUpByItem
+  alt-down: markdown::ScrollDownByItem
+  cmd-up: markdown::ScrollToTop
+  cmd-down: markdown::ScrollToBottom
+  cmd-shift-v: markdown::CloseAndReturnToEditor
+  cmd-f: buffer_search::Deploy
+}
+
+KeymapEditor {   // #109
+  cmd-f: search::FocusSearch
+  cmd-alt-f: keymap_editor::ToggleKeystrokeSearch
+  cmd-alt-c: keymap_editor::ToggleConflictFilter
+  enter: keymap_editor::EditBinding
+  alt-enter: keymap_editor::CreateBinding
+  cmd-k: keymap_editor::OpenCreateKeybindingModal
+  cmd-c: keymap_editor::CopyAction
+  cmd-shift-c: keymap_editor::CopyContext
+  cmd-t: keymap_editor::ShowMatchingKeybinds
+  cmd-e: zed::OpenKeymapFile
+}
+
+KeymapEditor > BufferSearchBar {   // #110
+  cmd-alt-f: keymap_editor::ToggleKeystrokeSearch
+}
+
+KeystrokeInput {   // #111
+  enter: keystroke_input::StartRecording
+  "escape escape escape": keystroke_input::StopRecording
+  delete: keystroke_input::ClearKeystrokes
+}
+
+KeybindEditorModal {   // #112
+  cmd-enter: menu::Confirm
+  escape: menu::Cancel
+}
+
+KeybindEditorModal > Editor {   // #113
+  up: menu::SelectPrevious
+  down: menu::SelectNext
+}
+
+Onboarding {   // #114
+  cmd-= cmd-+: zed::IncreaseUiFontSize(persist=false)
+  cmd--: zed::DecreaseUiFontSize(persist=false)
+  cmd-0: zed::ResetUiFontSize(persist=false)
+  cmd-enter: onboarding::Finish
+  alt-tab: onboarding::SignIn
+  alt-shift-a: onboarding::OpenAccount
+}
+
+Welcome {   // #115
+  cmd-n: workspace::NewFile
+  cmd-= cmd-+: zed::IncreaseUiFontSize(persist=false)
+  cmd--: zed::DecreaseUiFontSize(persist=false)
+  cmd-0: zed::ResetUiFontSize(persist=false)
+  cmd-1: welcome::OpenRecentProject(0)
+  cmd-2: welcome::OpenRecentProject(1)
+  cmd-3: welcome::OpenRecentProject(2)
+  cmd-4: welcome::OpenRecentProject(3)
+  cmd-5: welcome::OpenRecentProject(4)
+}
+
+InvalidBuffer {   // #116
+  ctrl-shift-enter: workspace::OpenWithSystem
+}
+
+!SettingsWindow {   // #117
+  cmd-,: zed::OpenSettings
+}
+
+SettingsWindow {   // #118
+  cmd-w escape: workspace::CloseWindow
+  cmd-m: settings_editor::Minimize
+  cmd-f: search::FocusSearch
+  cmd-,: settings_editor::OpenCurrentFile
+  left cmd-shift-e: settings_editor::ToggleFocusNav
+  ctrl-1: settings_editor::FocusFile(0)
+  ctrl-2: settings_editor::FocusFile(1)
+  ctrl-3: settings_editor::FocusFile(2)
+  ctrl-4: settings_editor::FocusFile(3)
+  ctrl-5: settings_editor::FocusFile(4)
+  ctrl-6: settings_editor::FocusFile(5)
+  ctrl-7: settings_editor::FocusFile(6)
+  ctrl-8: settings_editor::FocusFile(7)
+  ctrl-9: settings_editor::FocusFile(8)
+  ctrl-0: settings_editor::FocusFile(9)
+  "cmd-{": settings_editor::FocusPreviousFile
+  "cmd-}": settings_editor::FocusNextFile
+}
+
+StashDiff > Editor {   // #119
+  ctrl-space: git::ApplyCurrentStash
+  ctrl-shift-space: git::PopCurrentStash
+  ctrl-shift-backspace: git::DropCurrentStash
+}
+
+SettingsWindow > NavigationMenu {   // #120
+  up shift-tab: settings_editor::FocusPreviousNavEntry
+  down tab: settings_editor::FocusNextNavEntry
+  right: settings_editor::ExpandNavEntry
+  left: settings_editor::CollapseNavEntry
+  pageup: settings_editor::FocusPreviousRootNavEntry
+  pagedown: settings_editor::FocusNextRootNavEntry
+  home: settings_editor::FocusFirstNavEntry
+  end: settings_editor::FocusLastNavEntry
+}
+
+EditPredictionContext > Editor {   // #121
+  alt-left: dev::EditPredictionContextGoBack
+  alt-right: dev::EditPredictionContextGoForward
+}
+
+GitBranchSelector | (GitBranchSelector > Picker > Editor) {   // #122
+  cmd-shift-backspace: branch_picker::DeleteBranch
+  cmd-alt-shift-backspace: branch_picker::ForceDeleteBranch
+  cmd-shift-i: branch_picker::CycleBranchFilter
+  cmd-k: branch_picker::ToggleFilterMenu
+}
+
+ImageViewer {   // #123
+  cmd-= cmd-+: image_viewer::ZoomIn
+  cmd--: image_viewer::ZoomOut
+  cmd-0: image_viewer::ResetZoom
+  cmd-1: image_viewer::ZoomToActualSize
+  "cmd-k r": editor::RevealInFileManager
+  cmd-shift-0: image_viewer::FitToView
+}
+
+GitPicker {   // #125
+  cmd-1: git_picker::ActivateBranchesTab
+  cmd-2: git_picker::ActivateStashTab
+}
+
+WorktreePicker | (WorktreePicker > Picker > Editor) {   // #126
+  cmd-shift-backspace: worktree_picker::DeleteWorktree
+  cmd-alt-shift-backspace: worktree_picker::ForceDeleteWorktree
+  cmd-shift-c: zed::OpenWorktreeSetupTasks
+}
+
+NotebookEditor {   // #127
+  shift-enter: notebook::RunAndAdvance
+  cmd-enter: notebook::Run
+  cmd-shift-enter: notebook::RunAll
+  alt-up: notebook::MoveCellUp
+  alt-down: notebook::MoveCellDown
+  cmd-m: notebook::AddCodeBlock
+  cmd-shift-m: notebook::AddMarkdownBlock
+  cmd-shift-r: notebook::RestartKernel
+  cmd-c: notebook::InterruptKernel
+
+  notebook_mode == command {   // #128
+    enter: notebook::EnterEditMode
+    "d d" backspace: notebook::DeleteCell
+    down: menu::SelectNext
+    up: menu::SelectPrevious
+  }
+}
+
+NotebookEditor > Editor {   // #129
+  enter: editor::Newline
+  shift-enter: notebook::RunAndAdvance
+  cmd-enter: notebook::Run
+  cmd-shift-enter: notebook::RunAll
+  alt-up: notebook::MoveCellUp
+  alt-down: notebook::MoveCellDown
+  cmd-m: notebook::AddCodeBlock
+  cmd-shift-m: notebook::AddMarkdownBlock
+  cmd-shift-r: notebook::RestartKernel
+  escape: notebook::EnterCommandMode
+}
+
+GitGraph {   // #130
+  tab: git_graph::FocusNextTabStop
+  shift-tab: git_graph::FocusPreviousTabStop
+}
+
+GitGraphSearchBar > Editor {   // #131
+  tab: git_graph::FocusNextTabStop
+  shift-tab: git_graph::FocusPreviousTabStop
+}
+
+SkillCreator {   // #132
+  cmd-w: workspace::CloseWindow
+  cmd-enter: skill_creator::SaveSkill
+  tab: skill_creator::FocusNextField
+  shift-tab: skill_creator::FocusPreviousField
+}
+
+SkillCreator > Editor {   // #133
+  cmd-w: workspace::CloseWindow
+  cmd-enter: skill_creator::SaveSkill
+  tab: skill_creator::FocusNextField
+  shift-tab: skill_creator::FocusPreviousField
+}
