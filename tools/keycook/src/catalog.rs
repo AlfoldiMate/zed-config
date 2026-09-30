@@ -11,6 +11,8 @@ struct Raw {
     nodes: Vec<RawNode>,
     #[serde(default)]
     flag_docs: HashMap<String, String>,
+    #[serde(default)]
+    attr_docs: HashMap<String, String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -39,12 +41,13 @@ pub struct Catalog {
     pub flags: HashSet<String>,
     pub attrs: HashMap<String, Vec<String>>,
     pub flag_docs: HashMap<String, String>,
+    pub attr_docs: HashMap<String, String>,
 }
 
 impl Catalog {
     pub fn embedded() -> Catalog {
         let raw: Raw = serde_json::from_str(EMBEDDED).expect("contexts.json is valid");
-        let mut c = Catalog { flag_docs: raw.flag_docs, ..Default::default() };
+        let mut c = Catalog { flag_docs: raw.flag_docs, attr_docs: raw.attr_docs, ..Default::default() };
         for n in raw.nodes {
             c.node_names.insert(n.name.clone());
             for f in &n.flags {
@@ -95,7 +98,10 @@ impl Catalog {
             return Some(format!("**{id}** — flag on `{}`", on.join("`, `")));
         }
         if let Some(vals) = self.attrs.get(id) {
-            return Some(format!("**{id}** — attribute. values: `{}`", vals.join("`, `")));
+            let d = self.attr_docs.get(id).map(|d| format!(" {d}")).unwrap_or_default();
+            let on: Vec<_> = self.nodes.iter().filter(|n| n.attrs.contains_key(id)).map(|n| n.name.as_str()).collect();
+            let values = if vals.is_empty() { String::new() } else { format!("\n\nvalues: `{}`", vals.join("`, `")) };
+            return Some(format!("**{id}** — attribute on `{}`.{d}{values}", on.join("`, `")));
         }
         None
     }

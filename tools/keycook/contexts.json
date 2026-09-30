@@ -1,54 +1,739 @@
 {
-  "nodes": [
-    {"name": "Workspace", "doc": "The root of every focus chain.", "flags": ["debugger_running", "debugger_stopped", "debugger_session"], "attrs": {"os": ["macos", "linux", "windows"], "keyboard_layout": [], "left_dock": ["ProjectPanel", "GitPanel", "OutlinePanel", "TerminalPanel", "DebugPanel", "CollaborationPanel", "agent_panel"], "right_dock": ["ProjectPanel", "GitPanel", "OutlinePanel", "TerminalPanel", "DebugPanel", "CollaborationPanel", "agent_panel"], "bottom_dock": ["TerminalPanel", "DebugPanel", "GitPanel", "agent_panel"]}},
-    {"name": "Pane", "doc": "A pane in the centre; parent of buffers, terminals and search bars.", "flags": ["EmptyPane"]},
-    {"name": "Dock", "doc": "A dock; parent of panels."},
-    {"name": "Editor", "doc": "Any text input: buffers, search fields, the commit box, the agent box.", "flags": ["multibuffer", "jupyter", "renaming", "inline_input", "in_snippet", "has_previous_tabstop", "has_next_tabstop", "menu", "showing_completions", "showing_code_actions", "showing_signature_help", "edit_prediction", "copilot_suggestion", "in_leading_whitespace", "selection_mode", "multiple_selections", "start_of_input", "end_of_input", "diffs_expanded", "in_preview", "agent_diff", "editor_agent_diff", "use_modifier_to_send", "VimControl", "VimCount", "helix_mode"], "attrs": {"mode": ["full", "auto_height", "single_line", "minimap"], "extension": [], "edit_prediction_mode": ["eager", "subtle"], "vim_mode": ["normal", "visual", "insert", "replace", "operator", "waiting", "literal", "helix_normal", "helix_select"], "vim_operator": ["none", "i", "a", "c", "d", "y", "r", "f", "t", "F", "T", "s", "S", "ys", "cs", "ds", "m", "'", "`", ">", "<", "eq", "sh", "gq", "gR", "cx", "gU", "gu", "g~", "g?", "\"", "q", "@", "gc", "gb", "gw", "helix_m", "helix_next", "helix_previous", "helix_ms", "helix_mr", "helix_md"]}},
-    {"name": "Terminal", "doc": "The integrated terminal.", "flags": ["vi_mode", "selection", "DECCKM", "DECPAM", "DECPNM", "DECTCEM", "DECAWM", "DECOM", "IRM", "LNM", "report_focus", "alternate_scroll", "bracketed_paste", "any_mouse_reporting"], "attrs": {"screen": ["normal", "alt"], "mouse_reporting": ["off", "click", "drag", "motion"], "mouse_format": ["normal", "utf8", "sgr"]}},
-    {"name": "ProjectPanel", "doc": "The file explorer.", "flags": ["menu", "editing", "not_editing"]},
-    {"name": "OutlinePanel", "doc": "The outline panel.", "flags": ["menu", "editing", "not_editing"]},
-    {"name": "CollabPanel", "doc": "The collaboration panel.", "flags": ["menu", "editing", "not_editing"]},
-    {"name": "GitPanel", "doc": "The git panel.", "flags": ["menu", "ChangesList", "HistoryList", "CommitEditor"]},
-    {"name": "AgentPanel", "doc": "The agent panel."},
-    {"name": "AcpThread", "doc": "An agent thread view."},
-    {"name": "MessageEditor", "doc": "The legacy agent message editor."},
-    {"name": "ModeSelector", "doc": "The agent mode selector."},
-    {"name": "AcpThreadSearchBar", "doc": "Find in an agent thread."},
-    {"name": "ThreadsSidebar", "doc": "The agents sidebar.", "flags": ["menu", "searching", "editing", "not_searching"]},
-    {"name": "DebugPanel", "doc": "The debugger panel."},
-    {"name": "VariableList", "doc": "Debugger variables."},
-    {"name": "BreakpointList", "doc": "Debugger breakpoints."},
-    {"name": "DebugConsole", "doc": "Debugger console."},
-    {"name": "DebugSessionItem", "doc": "A debug session tab."},
-    {"name": "BufferSearchBar", "doc": "Find and replace in a buffer.", "flags": ["in_replace"]},
-    {"name": "ProjectSearchBar", "doc": "Project search fields.", "flags": ["in_replace"]},
-    {"name": "ProjectSearchView", "doc": "Project search results."},
-    {"name": "GitGraphSearchBar", "doc": "Search in the git graph."},
-    {"name": "TextFinder", "doc": "Find inside search results."},
-    {"name": "Picker", "doc": "A picker list; its query box is `Picker > Editor`.", "flags": ["with_preview"]},
-    {"name": "FileFinder"}, {"name": "CommandPalette"}, {"name": "RecentProjects"}, {"name": "WorktreePicker"}, {"name": "GitBranchSelector"}, {"name": "GitRepositorySelector"}, {"name": "StashList"}, {"name": "ChannelModal"}, {"name": "LspCommandSelector"}, {"name": "CallHierarchyPicker"}, {"name": "ToolchainSelector"}, {"name": "ThemeSelector"}, {"name": "IconThemeSelector"}, {"name": "LanguageSelector"}, {"name": "EncodingSelector"}, {"name": "TasksModal"}, {"name": "GoToLine"}, {"name": "TabSwitcher"}, {"name": "ThreadSwitcher"}, {"name": "ProjectPickerModal"}, {"name": "RefPickerModal"}, {"name": "SidebarRecentProjects"},
-    {"name": "GitCommit"}, {"name": "GitDiff"}, {"name": "StashDiff"}, {"name": "FileHistoryView"}, {"name": "GitGraph"}, {"name": "GitPicker"}, {"name": "RenameBranchModal"}, {"name": "StashMessageModal"}, {"name": "AskPass"}, {"name": "PasswordPrompt"},
-    {"name": "AgentDiff"}, {"name": "AgentFeedbackMessageEditor"}, {"name": "ThreadHistory"}, {"name": "ThreadsArchiveView"}, {"name": "ThreadImportModal"}, {"name": "ManageProfilesModal"}, {"name": "ConfigureContextServerModal"}, {"name": "AddContextMenu"}, {"name": "SkillCreator"}, {"name": "InlineAssistant"},
-    {"name": "AttachModal"}, {"name": "RunModal"},
-    {"name": "NotebookEditor", "attrs": {"notebook_mode": ["command", "edit"]}},
-    {"name": "Markdown"}, {"name": "MarkdownPreview"}, {"name": "SvgPreview"}, {"name": "ImageViewer"}, {"name": "HighlightsTreeView"}, {"name": "ComponentPreview"}, {"name": "ThemePreview"},
-    {"name": "SettingsWindow"}, {"name": "NavigationMenu", "flags": ["menu", "search"]}, {"name": "KeymapEditor", "flags": ["menu"]}, {"name": "KeybindEditorModal", "flags": ["showing_completions"]}, {"name": "KeystrokeInput"}, {"name": "KeyContextView"},
-    {"name": "Welcome"}, {"name": "Onboarding", "flags": ["menu"]}, {"name": "OnboardingAiConfigurationModal"}, {"name": "ZedPredictModal"}, {"name": "RatePredictionModal"}, {"name": "RatePredictionsModal"}, {"name": "EditPredictionContext"}, {"name": "Diagnostics"}, {"name": "InvalidBuffer"}, {"name": "InvalidItem"}, {"name": "Prompt"}, {"name": "OpenUrlModal"}, {"name": "SecurityModal"}, {"name": "SshConnectionModal"}, {"name": "RemoteServerModal"}, {"name": "ContainerModal"}, {"name": "CallStatsModal"}, {"name": "SharedScreen"}, {"name": "ApplicationMenu"}, {"name": "NestedMenu"}, {"name": "Popover"}, {"name": "StatusBar"}, {"name": "TitleEditor"}, {"name": "TextInput"}, {"name": "Root"}, {"name": "Panel"}
-  ],
-  "flag_docs": {
-    "menu": "A list that consumes up/down/enter/escape is open (pickers, completion popup, panels).",
-    "VimControl": "vim_mode is normal, visual, operator, helix_normal or helix_select.",
-    "VimCount": "A count has been typed.",
-    "helix_mode": "The underlying mode is a Helix mode, even while an operator is pending.",
-    "not_editing": "The panel's rename/filter box is not focused.",
-    "editing": "The panel's rename/filter box is focused.",
-    "in_replace": "The replace field of the search bar is focused.",
-    "showing_completions": "The completion list is visible.",
-    "showing_code_actions": "The code actions list is visible.",
-    "edit_prediction": "An edit prediction is displayed.",
-    "in_snippet": "A snippet is active.",
-    "multibuffer": "The editor shows excerpts (search results, diagnostics, project diff).",
-    "start_of_input": "Single-line or auto-height editor with the caret at the very start.",
-    "end_of_input": "Single-line or auto-height editor with the caret at the very end."
+ "nodes": [
+  {
+   "name": "Workspace",
+   "doc": "The root of every focus chain.",
+   "flags": [
+    "debugger_running",
+    "debugger_stopped",
+    "debugger_session"
+   ],
+   "attrs": {
+    "os": [
+     "macos",
+     "linux",
+     "windows"
+    ],
+    "keyboard_layout": [],
+    "left_dock": [
+     "ProjectPanel",
+     "GitPanel",
+     "OutlinePanel",
+     "TerminalPanel",
+     "DebugPanel",
+     "CollaborationPanel",
+     "agent_panel"
+    ],
+    "right_dock": [
+     "ProjectPanel",
+     "GitPanel",
+     "OutlinePanel",
+     "TerminalPanel",
+     "DebugPanel",
+     "CollaborationPanel",
+     "agent_panel"
+    ],
+    "bottom_dock": [
+     "TerminalPanel",
+     "DebugPanel",
+     "GitPanel",
+     "agent_panel"
+    ]
+   }
+  },
+  {
+   "name": "Pane",
+   "doc": "A pane in the centre; parent of buffers, terminals and search bars.",
+   "flags": [
+    "EmptyPane"
+   ]
+  },
+  {
+   "name": "Dock",
+   "doc": "A dock; parent of panels."
+  },
+  {
+   "name": "Editor",
+   "doc": "Any text input: buffers, search fields, the commit box, the agent box.",
+   "flags": [
+    "multibuffer",
+    "jupyter",
+    "renaming",
+    "inline_input",
+    "in_snippet",
+    "has_previous_tabstop",
+    "has_next_tabstop",
+    "menu",
+    "showing_completions",
+    "showing_code_actions",
+    "showing_signature_help",
+    "edit_prediction",
+    "copilot_suggestion",
+    "in_leading_whitespace",
+    "selection_mode",
+    "multiple_selections",
+    "start_of_input",
+    "end_of_input",
+    "diffs_expanded",
+    "in_preview",
+    "agent_diff",
+    "editor_agent_diff",
+    "use_modifier_to_send",
+    "VimControl",
+    "VimCount",
+    "helix_mode"
+   ],
+   "attrs": {
+    "mode": [
+     "full",
+     "auto_height",
+     "single_line",
+     "minimap"
+    ],
+    "extension": [],
+    "edit_prediction_mode": [
+     "eager",
+     "subtle"
+    ],
+    "vim_mode": [
+     "normal",
+     "visual",
+     "insert",
+     "replace",
+     "operator",
+     "waiting",
+     "literal",
+     "helix_normal",
+     "helix_select"
+    ],
+    "vim_operator": [
+     "none",
+     "i",
+     "a",
+     "c",
+     "d",
+     "y",
+     "r",
+     "f",
+     "t",
+     "F",
+     "T",
+     "s",
+     "S",
+     "ys",
+     "cs",
+     "ds",
+     "m",
+     "'",
+     "`",
+     ">",
+     "<",
+     "eq",
+     "sh",
+     "gq",
+     "gR",
+     "cx",
+     "gU",
+     "gu",
+     "g~",
+     "g?",
+     "\"",
+     "q",
+     "@",
+     "gc",
+     "gb",
+     "gw",
+     "helix_m",
+     "helix_next",
+     "helix_previous",
+     "helix_ms",
+     "helix_mr",
+     "helix_md"
+    ]
+   }
+  },
+  {
+   "name": "Terminal",
+   "doc": "The integrated terminal.",
+   "flags": [
+    "vi_mode",
+    "selection",
+    "DECCKM",
+    "DECPAM",
+    "DECPNM",
+    "DECTCEM",
+    "DECAWM",
+    "DECOM",
+    "IRM",
+    "LNM",
+    "report_focus",
+    "alternate_scroll",
+    "bracketed_paste",
+    "any_mouse_reporting"
+   ],
+   "attrs": {
+    "screen": [
+     "normal",
+     "alt"
+    ],
+    "mouse_reporting": [
+     "off",
+     "click",
+     "drag",
+     "motion"
+    ],
+    "mouse_format": [
+     "normal",
+     "utf8",
+     "sgr"
+    ]
+   }
+  },
+  {
+   "name": "ProjectPanel",
+   "doc": "The file explorer.",
+   "flags": [
+    "menu",
+    "editing",
+    "not_editing"
+   ]
+  },
+  {
+   "name": "OutlinePanel",
+   "doc": "The outline panel.",
+   "flags": [
+    "menu",
+    "editing",
+    "not_editing"
+   ]
+  },
+  {
+   "name": "CollabPanel",
+   "doc": "The collaboration panel.",
+   "flags": [
+    "menu",
+    "editing",
+    "not_editing"
+   ]
+  },
+  {
+   "name": "GitPanel",
+   "doc": "The git panel.",
+   "flags": [
+    "menu",
+    "ChangesList",
+    "HistoryList",
+    "CommitEditor"
+   ]
+  },
+  {
+   "name": "AgentPanel",
+   "doc": "The agent panel."
+  },
+  {
+   "name": "AcpThread",
+   "doc": "An agent thread view."
+  },
+  {
+   "name": "MessageEditor",
+   "doc": "The legacy agent message editor."
+  },
+  {
+   "name": "ModeSelector",
+   "doc": "The agent mode selector."
+  },
+  {
+   "name": "AcpThreadSearchBar",
+   "doc": "Find in an agent thread."
+  },
+  {
+   "name": "ThreadsSidebar",
+   "doc": "The agents sidebar.",
+   "flags": [
+    "menu",
+    "searching",
+    "editing",
+    "not_searching"
+   ]
+  },
+  {
+   "name": "DebugPanel",
+   "doc": "The debugger panel."
+  },
+  {
+   "name": "VariableList",
+   "doc": "Debugger variables."
+  },
+  {
+   "name": "BreakpointList",
+   "doc": "Debugger breakpoints."
+  },
+  {
+   "name": "DebugConsole",
+   "doc": "Debugger console."
+  },
+  {
+   "name": "DebugSessionItem",
+   "doc": "A debug session tab."
+  },
+  {
+   "name": "BufferSearchBar",
+   "doc": "Find and replace in a buffer.",
+   "flags": [
+    "in_replace"
+   ]
+  },
+  {
+   "name": "ProjectSearchBar",
+   "doc": "Project search fields.",
+   "flags": [
+    "in_replace"
+   ]
+  },
+  {
+   "name": "ProjectSearchView",
+   "doc": "Project search results."
+  },
+  {
+   "name": "GitGraphSearchBar",
+   "doc": "Search in the git graph."
+  },
+  {
+   "name": "TextFinder",
+   "doc": "Find inside search results."
+  },
+  {
+   "name": "Picker",
+   "doc": "A picker list; its query box is `Picker > Editor`.",
+   "flags": [
+    "with_preview"
+   ]
+  },
+  {
+   "name": "FileFinder",
+   "doc": "The file finder picker (`cmd-p`)."
+  },
+  {
+   "name": "CommandPalette",
+   "doc": "The command palette."
+  },
+  {
+   "name": "RecentProjects",
+   "doc": "The recent projects picker."
+  },
+  {
+   "name": "WorktreePicker",
+   "doc": "The git worktree picker."
+  },
+  {
+   "name": "GitBranchSelector",
+   "doc": "The branch picker popup."
+  },
+  {
+   "name": "GitRepositorySelector",
+   "doc": "The repository picker popup in the git panel."
+  },
+  {
+   "name": "StashList",
+   "doc": "The stash picker."
+  },
+  {
+   "name": "ChannelModal",
+   "doc": "Collaboration channel modal."
+  },
+  {
+   "name": "LspCommandSelector",
+   "doc": "Picker for language-server commands."
+  },
+  {
+   "name": "CallHierarchyPicker",
+   "doc": "Incoming/outgoing calls picker."
+  },
+  {
+   "name": "ToolchainSelector",
+   "doc": "Toolchain picker."
+  },
+  {
+   "name": "ThemeSelector",
+   "doc": "Theme picker."
+  },
+  {
+   "name": "IconThemeSelector",
+   "doc": "Icon theme picker."
+  },
+  {
+   "name": "LanguageSelector",
+   "doc": "Language picker for the buffer."
+  },
+  {
+   "name": "EncodingSelector",
+   "doc": "File encoding picker."
+  },
+  {
+   "name": "TasksModal",
+   "doc": "Task picker."
+  },
+  {
+   "name": "GoToLine",
+   "doc": "Go to line dialog."
+  },
+  {
+   "name": "TabSwitcher",
+   "doc": "Tab switcher modal."
+  },
+  {
+   "name": "ThreadSwitcher",
+   "doc": "Agent thread switcher."
+  },
+  {
+   "name": "ProjectPickerModal",
+   "doc": "Project picker."
+  },
+  {
+   "name": "RefPickerModal",
+   "doc": "Git ref picker."
+  },
+  {
+   "name": "SidebarRecentProjects",
+   "doc": "Recent projects in the multi-workspace sidebar."
+  },
+  {
+   "name": "GitCommit",
+   "doc": "The commit modal (its box is `GitCommit > Editor`)."
+  },
+  {
+   "name": "GitDiff",
+   "doc": "The project diff view (`GitDiff > Editor`)."
+  },
+  {
+   "name": "StashDiff",
+   "doc": "A stash diff view."
+  },
+  {
+   "name": "FileHistoryView",
+   "doc": "File history view."
+  },
+  {
+   "name": "GitGraph",
+   "doc": "The commit graph view."
+  },
+  {
+   "name": "GitPicker",
+   "doc": "The branches/stashes picker tabs."
+  },
+  {
+   "name": "RenameBranchModal",
+   "doc": "Rename branch modal."
+  },
+  {
+   "name": "StashMessageModal",
+   "doc": "Stash message modal."
+  },
+  {
+   "name": "AskPass",
+   "doc": "Git credential prompt."
+  },
+  {
+   "name": "PasswordPrompt",
+   "doc": "Password prompt."
+  },
+  {
+   "name": "AgentDiff",
+   "doc": "The agent review diff pane."
+  },
+  {
+   "name": "AgentFeedbackMessageEditor",
+   "doc": "Agent feedback box."
+  },
+  {
+   "name": "ThreadHistory",
+   "doc": "Agent thread history."
+  },
+  {
+   "name": "ThreadsArchiveView",
+   "doc": "Archived agent threads."
+  },
+  {
+   "name": "ThreadImportModal",
+   "doc": "Import threads modal."
+  },
+  {
+   "name": "ManageProfilesModal",
+   "doc": "Agent profiles modal."
+  },
+  {
+   "name": "ConfigureContextServerModal",
+   "doc": "Context server configuration modal."
+  },
+  {
+   "name": "AddContextMenu",
+   "doc": "The agent's add-context menu."
+  },
+  {
+   "name": "SkillCreator",
+   "doc": "Skill creator view."
+  },
+  {
+   "name": "InlineAssistant",
+   "doc": "Inline assistant prompt (`InlineAssistant > Editor`)."
+  },
+  {
+   "name": "AttachModal",
+   "doc": "Debugger attach modal."
+  },
+  {
+   "name": "RunModal",
+   "doc": "Debugger new-session modal."
+  },
+  {
+   "name": "NotebookEditor",
+   "attrs": {
+    "notebook_mode": [
+     "command",
+     "edit"
+    ]
+   },
+   "doc": "Jupyter notebook editor; cells are `NotebookEditor > Editor`."
+  },
+  {
+   "name": "Markdown",
+   "doc": "A rendered markdown element."
+  },
+  {
+   "name": "MarkdownPreview",
+   "doc": "Markdown preview tab."
+  },
+  {
+   "name": "SvgPreview",
+   "doc": "SVG preview tab."
+  },
+  {
+   "name": "ImageViewer",
+   "doc": "Image tab."
+  },
+  {
+   "name": "HighlightsTreeView",
+   "doc": "Syntax highlights debug view."
+  },
+  {
+   "name": "ComponentPreview",
+   "doc": "Component preview (dev)."
+  },
+  {
+   "name": "ThemePreview",
+   "doc": "Theme preview (dev)."
+  },
+  {
+   "name": "SettingsWindow",
+   "doc": "The settings UI window."
+  },
+  {
+   "name": "NavigationMenu",
+   "flags": [
+    "menu",
+    "search"
+   ],
+   "doc": "The settings window's navigation list."
+  },
+  {
+   "name": "KeymapEditor",
+   "flags": [
+    "menu"
+   ],
+   "doc": "The keymap editor."
+  },
+  {
+   "name": "KeybindEditorModal",
+   "flags": [
+    "showing_completions"
+   ],
+   "doc": "Edit-keybinding modal."
+  },
+  {
+   "name": "KeystrokeInput",
+   "doc": "Keystroke recorder in the keybinding modal."
+  },
+  {
+   "name": "KeyContextView",
+   "doc": "The `dev: open key context view` page."
+  },
+  {
+   "name": "Welcome",
+   "doc": "Welcome page."
+  },
+  {
+   "name": "Onboarding",
+   "flags": [
+    "menu"
+   ],
+   "doc": "Onboarding page."
+  },
+  {
+   "name": "OnboardingAiConfigurationModal",
+   "doc": "AI setup modal."
+  },
+  {
+   "name": "ZedPredictModal",
+   "doc": "Edit prediction onboarding modal."
+  },
+  {
+   "name": "RatePredictionModal",
+   "doc": "Rate a prediction modal."
+  },
+  {
+   "name": "RatePredictionsModal",
+   "doc": "Rate predictions modal."
+  },
+  {
+   "name": "EditPredictionContext",
+   "doc": "Edit prediction context view."
+  },
+  {
+   "name": "Diagnostics",
+   "doc": "Project diagnostics tab (`Diagnostics > Editor`)."
+  },
+  {
+   "name": "InvalidBuffer",
+   "doc": "A buffer that could not be opened."
+  },
+  {
+   "name": "InvalidItem",
+   "doc": "An item that could not be opened."
+  },
+  {
+   "name": "Prompt",
+   "doc": "A yes/no prompt."
+  },
+  {
+   "name": "OpenUrlModal",
+   "doc": "Open URL modal."
+  },
+  {
+   "name": "SecurityModal",
+   "doc": "Worktree trust modal."
+  },
+  {
+   "name": "SshConnectionModal",
+   "doc": "SSH connection modal."
+  },
+  {
+   "name": "RemoteServerModal",
+   "doc": "Remote server modal."
+  },
+  {
+   "name": "ContainerModal",
+   "doc": "Dev container modal."
+  },
+  {
+   "name": "CallStatsModal",
+   "doc": "Call statistics modal."
+  },
+  {
+   "name": "SharedScreen",
+   "doc": "A shared screen tab."
+  },
+  {
+   "name": "ApplicationMenu",
+   "doc": "The application menu bar."
+  },
+  {
+   "name": "NestedMenu",
+   "doc": "A nested context menu."
+  },
+  {
+   "name": "Popover",
+   "doc": "A popover."
+  },
+  {
+   "name": "StatusBar",
+   "doc": "The status bar."
+  },
+  {
+   "name": "TitleEditor",
+   "doc": "An inline title editor."
+  },
+  {
+   "name": "TextInput",
+   "doc": "A generic text input."
+  },
+  {
+   "name": "Root",
+   "doc": "The window root."
+  },
+  {
+   "name": "Panel",
+   "doc": "A generic panel wrapper."
   }
+ ],
+ "flag_docs": {
+  "menu": "A list that consumes up/down/enter/escape is open (pickers, completion popup, panels).",
+  "VimControl": "vim_mode is normal, visual, operator, helix_normal or helix_select.",
+  "VimCount": "A count has been typed.",
+  "helix_mode": "The underlying mode is a Helix mode, even while an operator is pending.",
+  "not_editing": "The panel's rename/filter box is not focused.",
+  "editing": "The panel's rename/filter box is focused.",
+  "in_replace": "The replace field of the search bar is focused.",
+  "showing_completions": "The completion list is visible.",
+  "showing_code_actions": "The code actions list is visible.",
+  "edit_prediction": "An edit prediction is displayed.",
+  "in_snippet": "A snippet is active.",
+  "multibuffer": "The editor shows excerpts (search results, diagnostics, project diff).",
+  "start_of_input": "Single-line or auto-height editor with the caret at the very start.",
+  "end_of_input": "Single-line or auto-height editor with the caret at the very end.",
+  "EmptyPane": "The pane has no item.",
+  "debugger_running": "A debug thread is running or stepping.",
+  "debugger_stopped": "A debug thread is stopped at a breakpoint.",
+  "debugger_session": "Any live debug session.",
+  "jupyter": "The `jupyter` editor setting is on.",
+  "renaming": "An LSP rename box is open.",
+  "inline_input": "An inline input (e.g. vim `:`) is pending.",
+  "has_previous_tabstop": "The snippet has an earlier tabstop.",
+  "has_next_tabstop": "The snippet has a later tabstop.",
+  "showing_signature_help": "Signature help with several signatures is open.",
+  "copilot_suggestion": "Legacy alias of `edit_prediction`.",
+  "in_leading_whitespace": "The cursor is in leading whitespace.",
+  "selection_mode": "Mark-based selection mode is on.",
+  "multiple_selections": "More than one cursor.",
+  "diffs_expanded": "At least one diff hunk is expanded inline.",
+  "in_preview": "The editor is a preview tab.",
+  "agent_diff": "The buffer is under agent review.",
+  "editor_agent_diff": "The editor form of an agent review.",
+  "use_modifier_to_send": "`agent.use_modifier_to_send` is set.",
+  "vi_mode": "Terminal vi (copy) mode.",
+  "selection": "Terminal text is selected.",
+  "ChangesList": "The git panel shows the changes tab.",
+  "HistoryList": "The git panel shows the history tab.",
+  "CommitEditor": "The commit message box is focused.",
+  "searching": "The sidebar filter box is focused.",
+  "with_preview": "The picker shows a preview pane.",
+  "search": "The settings navigation filter is focused.",
+  "DECCKM": "Terminal: application cursor keys.",
+  "DECPAM": "Terminal: application keypad.",
+  "DECPNM": "Terminal: numeric keypad.",
+  "DECTCEM": "Terminal: cursor visible.",
+  "DECAWM": "Terminal: auto-wrap.",
+  "DECOM": "Terminal: origin mode.",
+  "IRM": "Terminal: insert mode.",
+  "LNM": "Terminal: line-feed/new-line mode.",
+  "report_focus": "Terminal: focus events requested.",
+  "alternate_scroll": "Terminal: alternate scroll mode.",
+  "bracketed_paste": "Terminal: bracketed paste.",
+  "any_mouse_reporting": "Terminal: any mouse mode active."
+ },
+ "attr_docs": {
+  "os": "Set on every node: the platform Zed runs on.",
+  "keyboard_layout": "The active keyboard layout id, e.g. `com.apple.keylayout.QWERTY`.",
+  "left_dock": "Present while the left dock is open; the value is the active panel's key.",
+  "right_dock": "Present while the right dock is open; the value is the active panel's key.",
+  "bottom_dock": "Present while the bottom dock is open; the value is the active panel's key.",
+  "mode": "Editor kind: `full` is a code buffer, `auto_height` a growing box (commit message, agent input), `single_line` a search or picker field.",
+  "extension": "Lowercase file extension of a single-file buffer.",
+  "edit_prediction_mode": "`eager` accepts predictions with `tab`; `subtle` needs a modifier.",
+  "vim_mode": "The current modal mode. `operator` while an operator waits for a motion, `waiting` while it waits for a character, `literal` after `ctrl-v` in insert mode.",
+  "vim_operator": "The pending operator's id while `vim_mode` is `operator` or `waiting`; `none` otherwise.",
+  "notebook_mode": "`command` navigates cells, `edit` edits one.",
+  "screen": "`alt` while a full-screen program owns the terminal.",
+  "mouse_reporting": "Which mouse events the terminal program asked for.",
+  "mouse_format": "Mouse event encoding the terminal program asked for."
+ }
 }

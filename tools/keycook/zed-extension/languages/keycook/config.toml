@@ -2,6 +2,7 @@ name = "keycook"
 grammar = "keycook"
 path_suffixes = ["kc"]
 line_comments = ["// "]
+word_characters = ["_", ":", "-", "@", "."]
 autoclose_before = ")}"
 brackets = [
   { start = "{", end = "}", close = true, newline = true },
